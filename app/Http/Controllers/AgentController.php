@@ -78,7 +78,7 @@ class AgentController extends Controller implements HasMiddleware
                 'phone' => $request->owner_phone,
             ]);
             if ($user) {
-                $user->syncRoles('Agent');
+                $user->syncRoles('agent');
                 return redirect()->route('agent.index')->with('success', 'Agent created successfully');
             } else {
                 return redirect()->route('agent.index')->with('error', 'Failed to create user for agent');

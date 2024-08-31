@@ -44,14 +44,7 @@
                         </a>
                     </li>
                     @endcan
-                    @can('view shipments')
-                    <li class="menu-item {{ request()->routeIs('shipment.index') ? 'active' : ''  }}">
-                        <a class="menu-link" href="{{ route('shipment.index') }}">
-                            <i class="icon material-icons md-local_shipping"></i>
-                            <span class="text">Shipment</span>
-                        </a>
-                    </li>
-                    @endcan
+                   
                     @can('view users')
                     <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : ''  }}">
                         <a class="menu-link" href="{{ route('user.index') }}">
@@ -59,6 +52,15 @@
                             <span class="text">Users</span>
                         </a>
                     </li>  
+                    @endcan
+
+                    @can('view shipments')
+                    <li class="menu-item {{ request()->routeIs('shipment.index') ? 'active' : ''  }}">
+                        <a class="menu-link" href="{{ route('shipment.index') }}">
+                            <i class="icon material-icons md-local_shipping"></i>
+                            <span class="text">Shipment</span>
+                        </a>
+                    </li>
                     @endcan
 
 

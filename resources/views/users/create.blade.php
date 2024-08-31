@@ -87,7 +87,7 @@ User - Create
                             </div>
                         </div>
                         
-                        <div class="agent-inputs" id="agent-input" style="display: none">
+                        {{-- <div class="agent-inputs" id="agent-input" style="display: none">
                             <div class="mb-3">
                                 <label for="branch_name">Branch_Name</label>    
                                 <input type="text" class="form-control" name="branch_name" id="branch_name">
@@ -95,7 +95,7 @@ User - Create
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>   
-                        </div>
+                        </div> --}}
 
                        
                         <button type="submit" class="btn btn-dark">Create User</button>
@@ -113,7 +113,7 @@ User - Create
 
 @endsection
 
-@section('scripts')
+{{-- @section('scripts')
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
@@ -133,4 +133,4 @@ User - Create
 
 </script>
     
-@endsection
+@endsection --}}
