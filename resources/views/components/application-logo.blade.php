@@ -1,0 +1,1 @@
+<img src="{{ asset('assets/imgs/guest-imgs/logo.png') }}" alt="" style="width: 8rem; border-radius: 2rem;mix-blend-mode:multiply ">

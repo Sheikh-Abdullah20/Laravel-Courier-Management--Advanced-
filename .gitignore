@@ -1,0 +1,7 @@
+node_modules
+
+vendor/
+!public/vendor
+node_modules/
+npm-debug.log
+.php_cs.cache

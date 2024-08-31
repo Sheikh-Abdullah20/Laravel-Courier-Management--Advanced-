@@ -1,0 +1,26 @@
+@media print{
+
+    .navbar{
+        display: none !important;
+    }
+    .navbar-aside {
+        display: none !important;
+    }
+    .content-title{
+        display: none !important;
+    }
+    form{
+        display: none !important;
+    }
+    .btn{
+        display: none !important;
+    }
+    .no-print{
+        display: none !important;
+    }
+    @page{
+        size: A4 !important;
+        margin: 0 !important;
+        scale: 100;
+    }
+}

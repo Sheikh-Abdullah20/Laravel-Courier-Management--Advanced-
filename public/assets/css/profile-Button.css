@@ -1,0 +1,31 @@
+.button {
+    width: 200px !important;
+    height: 50px !important;
+    background: #212529;
+    color: white;
+    border-radius: 5rem !important;
+    text-align: center !important;
+    display: block !important;
+    margin-top: 2rem !important;
+    transition: 0.3s ease-out;
+}
+.button:hover{
+    background: rgb(39, 39, 39);
+
+}
+
+.button-danger {
+    width: 200px !important;
+    height: 50px !important;
+    background: #bd2034;
+    color: white;
+    border-radius: 5rem !important;
+    text-align: center !important;
+    display: block !important;
+    margin-top: 2rem !important;
+    transition: 0.3s ease-out;
+}
+
+.button-danger:hover {
+    background: #a15e67;
+   }
