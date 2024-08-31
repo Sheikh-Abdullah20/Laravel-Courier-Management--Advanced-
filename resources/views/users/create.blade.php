@@ -72,9 +72,9 @@ User - Create
 
                         <div class="mb-3 row">
                             <div class="col-md-2">
-                                <label for="country">Country</label>
-                                <input type="text" class="form-control" id="country_code" name="country" value="{{ old('country') }}">
-                                @error('country')
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
+                                @error('city')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -97,23 +97,7 @@ User - Create
                             </div>   
                         </div>
 
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="role">Roles</label>
-                                    <select name="role" id="role" class="form-select" style="cursor: pointer">
-                                        <option value="">Select Role</option>
-                                        @foreach($roles as $role)
-                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            @error('role')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        
+                       
                         <button type="submit" class="btn btn-dark">Create User</button>
                 </div>
             </div>

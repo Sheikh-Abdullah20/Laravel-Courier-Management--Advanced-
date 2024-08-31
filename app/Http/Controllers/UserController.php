@@ -25,8 +25,7 @@ class UserController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if($request->filled('selected')){
-            $selectedId = $request->selected;
-            $users = User::whereIn('id',$selectedId)->get();            
+            $selectedId = $request->selected;        
             $users = User::whereIn('id',$selectedId)->delete();            
            if($users){
             return redirect()->back()->with('delete','Selected Users Has Been Deleted Successfully');
@@ -50,8 +49,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function create()
     {
-        $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('users.create');
     }
 
     public function store(Request $request)
@@ -62,7 +60,7 @@ class UserController extends Controller implements HasMiddleware
             'email' => 'required|email',
             'password' => 'required|confirmed|min:8',
             'address' => 'required',
-            'country' => 'required',
+            'city' => 'required',
             'phone' => 'required',
             'dob' => 'required',
         ]);
@@ -74,20 +72,11 @@ class UserController extends Controller implements HasMiddleware
                 'address' =>$request->address,
                 'dob' =>$request->dob,
                 'phone' =>$request->phone,
-                'country' =>$request->country,
+                'city' =>$request->city,
         ]);
 
-        if($request->role === 'agent'){
-            $agent = Agent::create([
-                'branch_name' => $request->branch_name,
-                'email' => $request->email,
-                'branch_address' => $request->address,
-                'owner_name' => $request->name,
-                'owner_phone' => $request->phone,
-            ]);
-        }
         if ($user) {
-            $user->assignRole($request->role);
+            $user->syncRoles('user');
             return redirect()->route('user.index')->with('success', 'User Has Been Created Successfully');
         } else {
             return redirect()->route('user.index')->with('error', 'User Creation Failed');
@@ -110,7 +99,7 @@ class UserController extends Controller implements HasMiddleware
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
-            'country' => 'required',
+            'city' => 'required',
             'phone' => 'required',
         ]);
         $user = User::find($id);
@@ -121,28 +110,10 @@ class UserController extends Controller implements HasMiddleware
                 'address' =>$request->address,
                 'dob' =>$request->dob,
                 'phone' =>$request->phone,
-                'country' =>$request->country,
+                'city' =>$request->city,
             ]);
-            if($request->filled('role' === 'agent')){
-                $role =  $user->roles->pluck('name')->implode('');
-                if($role === 'agent'){
-                    $user_email = User::find($id);
-                    $agent = Agent::where('email',$user_email->email)->first();
-                    $agent->update([
-                        'branch_name' => $request->branch_name,
-                        'email' => $request->email,
-                        'branch_address' => $request->address,
-                        'owner_name' => $request->name,
-                        'owner_phone' => $request->phone,
-                    ]);
-                }
-            }
            
-            if ($updated) {
-                if($request->filled('role')){
-                    $user->syncRoles($request->role);
-                    $user->assignRole($request->role);
-                }
+            if ($updated) {               
                 return redirect()->route('user.index')->with('success', 'User Has Been Updated Successfully');
             } else {
                 return redirect()->route('user.index')->with('error', 'User Updating Failed');
@@ -158,12 +129,9 @@ class UserController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         $user = User::find($id);
-        $agent = Agent::where('email',$user->email)->first();
+    
         if ($user) {
             $user->delete();
-            if($agent){
-                $agent->delete();
-            }
             return redirect()->route('user.index')->with('delete', 'User Has Been Deleted Successfully');
         } else {
             return redirect()->route('user.index')->with('error', 'User Deletion Failed');

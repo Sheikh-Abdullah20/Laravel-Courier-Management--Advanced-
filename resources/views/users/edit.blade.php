@@ -57,9 +57,9 @@ User - Edit
 
                         <div class="mb-3 row">
                             <div class="col-md-2">
-                                <label for="country">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" value="{{ $user->country }}">
-                                @error('country')
+                                <label for="country">City</label>
+                                <input type="text" class="form-control" id="city" name="city" value="{{ $user->city }}">
+                                @error('city')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -71,30 +71,7 @@ User - Edit
                                 @enderror
                             </div>
                         </div>
-                       
-                        <div class="mb-3">
-                            <label for="current_Role">Current Role</label>
-                            <input type="text" class="form-control" id="current_Role"  value="{{ $user->roles->pluck('name')->implode('') }}" readonly>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="role">Roles</label>
-                                    <select name="role" id="role" class="form-select" style="cursor: pointer">
-                                        <option value="" hidden>Select Role</option>
-                                        @foreach($roles as $role)
-                                        <option {{ $hasRole->contains($role->name) ? 'selected' : '' }} value="{{ $role->name }}">{{ $role->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            @error('role')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        
+                                        
                         <button type="submit" class="btn btn-dark">Update User</button>
                 </div>
             </div>
