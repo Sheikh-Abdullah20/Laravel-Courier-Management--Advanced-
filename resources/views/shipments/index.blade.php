@@ -83,6 +83,8 @@ Shipments - View
                         <div class="col-md-12">
                             <form action="{{ route('shipment.index') }}" method="GET" class="d-flex w-50 m-auto">
                                 @csrf
+
+                                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
                                 <select name="agents" id="agents" class="form-select mx-3">
                                     <option value="" hidden>Choose Agent</option>
                                     <option value="">All</option>
@@ -90,6 +92,8 @@ Shipments - View
                                     <option value="{{ $agent->name }}">{{ $agent->name }}</option>
                                     @endforeach
                                 </select>
+                                @endif
+
                                 <select name="status" id="status" class="form-select mx-3">
                                     <option value="" hidden>Choose Status</option>
                                     @foreach ($statuss as $status )
@@ -147,7 +151,9 @@ Shipments - View
                                         <th>Receiver Name</th>
                                         <th>Order Number</th>
                                         <th>Shipping Date</th>
+                                        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
                                         <th>Status</th>
+                                        @endif
                                         <th>Shipment_Status</th>
                                         @if(auth()->user()->hasPermissionTo('edit shipments') ||
                                         auth()->user()->hasPermissionTo('show shipments'))
@@ -177,11 +183,12 @@ Shipments - View
                                     <td>{{ $shipment->receiver_name }}</td>
                                     <td>{{ $shipment->order_number }}</td>
                                     <td>{{ $shipment->shipping_date }}</td>
-
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
                                     @if($shipment->status === 'Approved')
                                     <td><span class="bg-success p-1 text-light ">{{ $shipment->status }}</span>
                                     @elseif($shipment->status === 'Pending')
                                     <td><span class="bg-danger p-1 text-light ">{{ $shipment->status }}</span>
+                                    @endif
                                     @endif
 
                                     @if($shipment->status_shipment === 'Pending')

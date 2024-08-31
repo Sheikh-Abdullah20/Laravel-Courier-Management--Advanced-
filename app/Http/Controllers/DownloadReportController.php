@@ -72,7 +72,7 @@ class DownloadReportController extends Controller  implements HasMiddleware
 };  
 
 return response()->stream($generate,200,$headers);
-}else{
+}elseif(Auth::user()->hasRole('agent')){
     $shipments = Shipment::where('user_id',Auth::user()->id)->get();
     $filename = 'Shipment_Report_' . time() . '.csv';
    
@@ -110,6 +110,56 @@ return response()->stream($generate,200,$headers);
             $shipment->from_area,
             $shipment->to_area,
             $shipment->status,
+            $shipment->status_shipment,
+            $shipment->descripiton,
+            $shipment->quantity,
+            $shipment->weight,
+            $shipment->payment_method,
+            $shipment->amount,
+            $shipment->created_at,
+        ]);
+    }
+    fclose($file);
+};  
+
+return response()->stream($generate,200,$headers);
+}else{
+    $shipments = Shipment::where('receiver_email',Auth::user()->email)->get();
+    $filename = 'Shipment_Report_' . time() . '.csv';
+   
+
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Dissposition' => 'attachments; filename="'.$filename .'"'
+    ];
+
+   
+
+    $generate = function() use ($shipments){
+        $file = fopen('php://output','w');
+
+        fputcsv($file, ['Shipment_id','Agent_Name','Tracking_Number','Order_Number','Sender_Name','Receiver_Name','Receiver_Phone','Sender Email','Pickup_Address','Delivery_Address','Agent_Name','Shipment_Date','Return_Address','Return_City','City','From_Area','To_Area','shipment_status','Descripiton','Quantity','Weight','Payment_Method','Amount','created_at']);
+
+
+    foreach($shipments as $shipment){
+        fputcsv($file,[
+            $shipment->id,
+            $shipment->agent_name,
+            $shipment->tracking_number,
+            $shipment->order_number,
+            $shipment->sender_name,
+            $shipment->receiver_name,
+            $shipment->receiver_phone,
+            $shipment->sender_email,
+            $shipment->pickup_address,
+            $shipment->delivery_address,
+            $shipment->agent_name,
+            $shipment->shipping_date,
+            $shipment->return_address,
+            $shipment->return_city,
+            $shipment->city,
+            $shipment->from_area,
+            $shipment->to_area,
             $shipment->status_shipment,
             $shipment->descripiton,
             $shipment->quantity,

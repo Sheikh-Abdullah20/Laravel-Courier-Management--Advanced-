@@ -55,7 +55,7 @@
                 <h3>Order Information</h3>
                 {{ QrCode::generate($url) }}
                 <p><strong>Date: {{ $shipment->created_at->format('d M Y')  }} </strong> </p>
-                <p><strong>Amount: </strong>{{ $shipment->amount }} </p>
+                <p><strong>Amount: </strong>Rs:{{ $shipment->amount }} </p>
                 <p><strong>Order Type:</strong> {{ $shipment->package_type }} </p>
             </div>
         </div>

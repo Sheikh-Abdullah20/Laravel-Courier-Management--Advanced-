@@ -103,10 +103,10 @@ Sign-up
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Country</label>
-                                <input class="form-control" placeholder="Country" type="text" name="country"
-                                    value="{{ old('country') }}" />
-                                @error('country')
+                            <label class="form-label">City</label>
+                                <input class="form-control" placeholder="city" type="text" name="city"
+                                    value="{{ old('city') }}" />
+                                @error('city')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                         </div>

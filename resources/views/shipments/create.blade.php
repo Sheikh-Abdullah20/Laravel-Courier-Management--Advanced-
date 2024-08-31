@@ -29,7 +29,7 @@ Shipment - Create
                                   <select id="agent_name" name="agent_name" class="form-select" style="cursor: pointer" > 
                                     <option value="" hidden>Select Agent</option>
                                     @foreach ($agents as $agent )
-                                        <option value="{{ $agent->name }}">{{ $agent->name }}</option>
+                                        <option value="{{ $agent->id }}">{{ $agent->name }}</option>
                                     @endforeach
                                   </select>
                                     @error('agent_name')

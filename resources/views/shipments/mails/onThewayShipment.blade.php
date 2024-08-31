@@ -8,7 +8,6 @@
   </head>
   <body>
     <p>Sender Name: <b>{{ $request['sender_name'] }}</b></p>
-    <br>
     <p>Receiver Name: <b>{{ $request['receiver_name'] }}</b></p>
     <hr>
     <p>Your Shipment is On The Way Please Be Patient</p>

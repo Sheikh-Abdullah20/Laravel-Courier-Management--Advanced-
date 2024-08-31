@@ -6,7 +6,6 @@ use App\Mail\approvedShipmentMail;
 use App\Mail\deliveredShipmentMail;
 use App\Mail\onTheWayShipmentMail;
 use App\Mail\shipmentCreationMail;
-use App\Models\Agent;
 use App\Models\Rider;
 use App\Models\Shipment;
 use App\Models\Status;
@@ -54,6 +53,7 @@ class ShipmentController extends Controller implements HasMiddleware
             $agents = User::with('roles')->whereHas('roles',function($query){
                 $query->where('name','agent');
             })->get();
+            $riders = Rider::all();
             $statuss = Status::all();
             $agentSearch = $request->agents;
             $statusSearch = $request->status;
@@ -61,19 +61,28 @@ class ShipmentController extends Controller implements HasMiddleware
                 $query->where('agent_name','like', '%'.$agentSearch.'%');
              
        })->where('status_shipment','like', '%'. $statusSearch . '%')->orderBy('created_at','desc')->paginate(10);
-      
-        }else{
+       return view('shipments.index',compact('shipments','statuss','agents','riders'));
+
+        }elseif(Auth::user()->hasRole('agent')){
             $agents = User::where('id',Auth::user()->id)->get();
             $statuss = Status::all();
             $agentSearch = $request->agents;
             $statusSearch = $request->status;
             $shipments = Shipment::when(!empty($agentSearch), function($query) use ($agentSearch){
                 $query->where('agent_name','like', '%'.$agentSearch.'%');
-       })->where('status_shipment','like', '%'. $statusSearch . '%')->where('agent_name',Auth::user()->name)->paginate(10);
+             })->where('status_shipment','like', '%'. $statusSearch . '%')->where('agent_name',Auth::user()->name)->paginate(10);
+            $riders = Rider::all();
+            return view('shipments.index',compact('shipments','statuss','agents','riders'));
+        }else{
+            $statuss = Status::all();
+            $statusSearch = $request->status;
+            $shipments = Shipment::when(!empty($statusSearch), function($query) use ($statusSearch){
+                $query->where('status_shipment','like', '%'.$statusSearch.'%');
+             })->where('receiver_email',Auth::user()->email)->paginate(10);
+             return view('shipments.index',compact('shipments','statuss'));
         }
        
-        $riders = Rider::all();
-       return view('shipments.index',compact('shipments','statuss','agents','riders'));
+       
     }
 
 
@@ -96,7 +105,11 @@ class ShipmentController extends Controller implements HasMiddleware
 
     public function store(Request $request)
     {
-        if(Auth::user()->hasRole('admin')){
+
+   if(Auth::user()->hasRole('admin')){
+    $agent_id =  $request->agent_name;
+    $user = User::find($agent_id);
+    // return $user;
         $request->validate([
             'agent_name' => 'required',
             'shipping_date' =>'required',
@@ -123,7 +136,7 @@ class ShipmentController extends Controller implements HasMiddleware
         $tracking_number = mt_rand(1111111111,9999999999);
         $order_number = mt_rand(111111,222222);
         $shipment = Shipment::create([
-            'agent_name' => $request->agent_name,
+            'agent_name' => $user->name,
             'shipping_date' => $request->shipping_date,
             'sender_name' => $request->sender_name,
             'receiver_name' => $request->receiver_name,
@@ -146,7 +159,7 @@ class ShipmentController extends Controller implements HasMiddleware
             'description' => $request->description,
             'order_number' => $order_number,
             'tracking_number' => $tracking_number,
-            'user_id' => Auth::user()->id
+            'user_id' => $user->id
         ]);
 
         if($shipment){
@@ -301,19 +314,20 @@ class ShipmentController extends Controller implements HasMiddleware
                 'status' => $request->approval,
                 'user_id' => Auth::user()->id,
             ]);
-           if($updated){
-            $email = $shipment->sender_email;
-            if($request->status_shipment === 'Approved'){
-                $mail = Mail::to($email)->send(new approvedShipmentMail($request->all(),$shipment));
-            }elseif($shipment->status_shipment === 'On the way'){
-                $mail = Mail::to($email)->send(new onTheWayShipmentMail($request->all(),$shipment));
-            }elseif($shipment->status_shipment === 'Delivered'){
-                $mail = Mail::to($email)->send(new deliveredShipmentMail($request->all(),$shipment));
-            }
-            return redirect()->route('shipment.index')->with('success','Shipment updated successfully');
-           }else{
-            return redirect()->route('shipment.index')->with('error','Failed to update shipment');
-           }
+            if($updated){
+                $sender_email = $shipment->sender_email;
+                $receiver_email = $shipment->receiver_email;
+                if($request->status_shipment === 'Approved'){
+                    $mail = Mail::to([$sender_email, $receiver_email])->send(new approvedShipmentMail($request->all(),$shipment));
+                }elseif($shipment->status_shipment === 'On the way'){
+                    $mail = Mail::to([$sender_email, $receiver_email])->send(new onTheWayShipmentMail($request->all(),$shipment));
+                }elseif($shipment->status_shipment === 'Delivered'){
+                    $mail = Mail::to([$sender_email, $receiver_email])->send(new deliveredShipmentMail($request->all(),$shipment));
+                }
+                return redirect()->route('shipment.index')->with('success','Shipment updated successfully');
+               }else{
+                return redirect()->route('shipment.index')->with('error','Failed to update shipment');
+               }
         }elseif($shipment){
             $updated = $shipment->update([
                 'agent_name' => $shipment->agent_name,

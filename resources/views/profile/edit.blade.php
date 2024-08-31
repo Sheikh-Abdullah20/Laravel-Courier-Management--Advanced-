@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Admin - Profile
+Profile
 @endsection
 
 @section('css')
