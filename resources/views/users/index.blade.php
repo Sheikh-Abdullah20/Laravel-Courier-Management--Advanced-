@@ -26,7 +26,7 @@
                         <div class="row">
                                 <div class="col-md-6 d-flex justify-content-start">
                                     <form class="w-50 d-flex" action="{{ route('user.index') }}" method="GET">
-                                        <input type="search" class="form-control" name="search">
+                                        <input type="search" class="form-control" name="search" placeholder="Search Here..">
                                         <button type="submit" class="btn btn-dark mx-2">Search</button>
                                     </form>
 
@@ -64,7 +64,7 @@
                                     <th>User Role</th>
                                     @if (auth()->user()->hasPermissionTo('edit users') || auth()->user()->hasPermissionTo('show users'))
                                         <th>Actions</th>
-                                    @elseif(auth()->user()->hasPermissionTo('edit users'))
+                                    @elseif(auth()->user()->hasPermissionTo('edit users') || auth()->user()->hasRole('admin'))
                                         <th>Actions</th>
                                     @endif
                                 </tr>

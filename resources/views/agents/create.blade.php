@@ -1,4 +1,4 @@
--- Active: 1720255218737@@127.0.0.1@3306@my_courier
+
 @extends('layouts.app')
 
 @section('title')
@@ -47,9 +47,9 @@ Agent - Create
 
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label for="country">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}">
-                                @error('country')
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
+                                @error('city')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

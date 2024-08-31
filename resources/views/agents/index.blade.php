@@ -24,8 +24,14 @@ Agents - View
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row my-3 mx-4">
-                        <div class="col-md-12 d-flex justify-content-end">
+                    <div class="row my-3 ">
+                        <div class="col-md-6 d-flex justify-content-start">
+                            <form action="{{ route('agent.index') }}" method="GET" class="d-flex">
+                                <input type="search" class="form-control" name="search" placeholder="Search Here..">
+                                <button class="btn btn-dark mx-2" type="submit">Search</button>
+                            </form>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end">
                             @can('delete agents')
                             <button class="btn btn-danger mx-2" type="button" onclick="select()"><i class="icon material-icons md-delete"></i></button>
                             @endcan
@@ -46,7 +52,7 @@ Agents - View
                                 @elseif(auth()->user()->hasRole('admin'))
                                 <th>Select</th>
                                 @endif
-                                <th>Agent ID</th>
+                               
                                 <th>Agent Name</th>
                                 <th>Branch Name</th>
                                 <th>Email</th>
@@ -62,11 +68,11 @@ Agents - View
                                 @endif
                             </tr>
                         </thead>
-                        {{-- Opening Php for Making Counter --}}
-                        @php $count = 0; @endphp
+                       
+                       
                         <tbody>
                             @foreach($agents as $agent)
-                                @php $count++; @endphp
+                              
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete agents'))
                                 <td>
@@ -79,7 +85,7 @@ Agents - View
                                 </form>
                                 </td>
                                 @endif
-                                <td>{{$count}}</td>
+                               
                                 <td>{{$agent->owner_name}}</td>
                                 <td>{{ $agent->branch_name}}</td>
                                 <td>{{ $agent->email }}</td>
@@ -87,9 +93,9 @@ Agents - View
                                 <td class="w-25">{{ $agent->branch_address }}</td>
                                 <td>
                                     @if($agent->branch_status === 'Active')
-                                    <p class="bg-success rounded text-light p-2">{{ $agent->branch_status }}</p>
+                                    <p class="bg-success rounded text-light ">{{ $agent->branch_status }}</p>
                                     @elseif($agent->branch_status === 'In-Active')
-                                    <p class="bg-danger rounded text-light p-2">{{ $agent->branch_status }}</p>
+                                    <p class="bg-danger rounded text-light ">{{ $agent->branch_status }}</p>
                                     @endif
                                 </td>
                                 <td>

@@ -33,8 +33,13 @@ class AgentController extends Controller implements HasMiddleware
 
             return redirect()->back()->with('delete', 'Selected Agents deleted successfully');
         }
-
-        $agents = Agent::paginate(10);
+        $search = $request->search;    
+        $agents = Agent::when($search, function ($query) use ($search){
+            return $query->where('owner_name','like','%' . $search . '%')
+            ->orwhere('email','like','%' . $search . '%')
+            ->orWhere('branch_name','like','%' . $search . '%')
+            ->orWhere('branch_status',$search);
+        })->paginate(10);
         return view('agents.index', compact('agents'));
     }
 
@@ -52,7 +57,7 @@ class AgentController extends Controller implements HasMiddleware
             'address' => 'required',
             'owner_name' => 'required',
             'owner_phone' => 'required',
-            'country' => 'required',
+            'city' => 'required',
         ]);
 
         $agent = Agent::create([
@@ -69,7 +74,7 @@ class AgentController extends Controller implements HasMiddleware
                 'email' => $request->email,
                 'password' => $request->password,
                 'address' => $request->address,
-                'country' => $request->country,
+                'city' => $request->city,
                 'phone' => $request->owner_phone,
             ]);
             if ($user) {
