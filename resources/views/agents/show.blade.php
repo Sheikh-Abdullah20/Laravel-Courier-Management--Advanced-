@@ -20,15 +20,15 @@ Agent - Show
         <div class="card p-5">
             <div class="card-body">
                 <h1 class="text-center mb-4">Agent Details</h1>
-                <h4> <b> Branch Name : </b> {{ $agent->branch_name }} </h4> 
+                <h4> <b>  Name : </b> {{ $agent->name }} </h4> 
                 <hr>
-                <h4> <b> Branch Email : </b> {{ $agent->branch_email }} </h4>
+                <h4> <b> Email : </b> {{ $agent->email }} </h4>
                 <hr>
-                <h4> <b> Branch Address : {{ $agent->branch_address }} </b> </h4>
+                <h4> <b>  Address : {{ $agent->address }} </b> </h4>
                 <hr>
-                <h4> <b> Owner Name : </b> {{ $agent->owner_name }} </h4>
+                <h4> <b> Branch : </b> {{ $agent->branch }} </h4>
                 <hr>
-                <h4> <b> Owner Phone : </b> {{ $agent->owner_phone }} </h4>
+                <h4> <b>Phone : </b> {{ $agent->phone }} </h4>
             </div>
 
             <div class="row my-4 px-2 ">

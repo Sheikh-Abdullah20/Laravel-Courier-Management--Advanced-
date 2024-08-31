@@ -22,7 +22,7 @@ Agent - Create
                     <form action="{{ route('agent.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="name">Branch Name</label>
+                            <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -55,6 +55,16 @@ Agent - Create
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
+                                @error('phone')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="mb-3">
                             <label for="address">Address</label>
                             <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}">
@@ -63,29 +73,15 @@ Agent - Create
                             @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for="owner_name">Onwer Name</label>
-                                <input type="text" class="form-control" id="owner_name" name="owner_name" value="{{ old('owner_name') }}">
-                                @error('owner_name')
+                        <div class="mb-3">
+                            <label for="branch_name">Branch Name</label>
+                            <input type="text" class="form-control" id="name" name="branch_name" value="{{ old('branch_name') }}">
+                            @error('branch_name')
                                 <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            @enderror
                         </div>
 
-                       
 
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for="owner_phone">Onwer Phone</label>
-                                <input type="text" class="form-control" id="phone" name="owner_phone" value="{{ old('owner_phone') }}">
-                                @error('owner_phone')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-
-                    
                         
                         <button type="submit" class="btn btn-dark my-3" >Create Agent</button>
                 </div>

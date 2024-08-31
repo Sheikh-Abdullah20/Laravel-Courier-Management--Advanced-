@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('phone');
             $table->longText('address');
+            $table->string('branch')->nullable();
             $table->date('dob')->nullable();
             $table->rememberToken();
             $table->timestamps();

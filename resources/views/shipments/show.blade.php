@@ -35,7 +35,7 @@
 
                 <div class="section-2">
                     <br>
-                    <h3>Shipper Information</h3>
+                    <h3>Sender Information</h3>
                     <p><strong>Name: </strong> {{ $shipment->sender_name }} </p>
                     <p><strong>Contact: </strong> {{ $shipment->sender_phone }} </p>
                     <p><strong>Pickup Address: </strong> {{ $shipment->pickup_address }} </p>
@@ -48,10 +48,8 @@
                 <p><strong>Quantity: </strong> {{ $shipment->quantity }} </p>
                 <p><strong>Order Number: </strong> {{ $shipment->order_number }} </p>
                 <p><strong>Tracking No:</strong> {{ $shipment->tracking_number }} </p>
-                <p><strong>Origin:</strong> {{ $shipment->from_city }} </p>
-                <p><strong>Destination:</strong> {{ $shipment->to_city }} </p>
-                <p><strong>Return City:</strong>{{ $shipment->return_city }}  </p>
-                <p><strong>Remarks:</strong> {{ $shipment->description }} </p>
+                <p><strong>Origin:</strong> {{ $shipment->city }} </p>
+                <p><strong>Description:</strong> {{ $shipment->description }} </p>
             </div>
             <div class="section-4">
                 <h3>Order Information</h3>

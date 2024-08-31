@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('shipping_date');
             $table->string('sender_name');
             $table->string('sender_email');
+            $table->string('receiver_email');
             $table->string('sender_phone');
             $table->string('receiver_name');
             $table->string('receiver_phone');
@@ -24,8 +25,6 @@ return new class extends Migration
             $table->string('delivery_address');
             $table->string('return_address');
             $table->string('return_city');
-            $table->string('from_country');
-            $table->string('to_country');
             $table->string('from_city');
             $table->string('to_city');
             $table->string('from_area');

@@ -45,6 +45,7 @@
                         </div>
                     </div>
                    
+                 
                     <form id="form" action="{{ route('user.index') }}" method="GET">
                         @csrf
                         <div class="table-responsive">
@@ -123,9 +124,13 @@
                                 @endforeach
                                 </tbody>
                                 </table>
+                                @if($users->isEmpty())
+                                <div class="alert alert-warning">No User Found within Your Search [{{ $search }}]</div>
+                                @endif
                             </div>
                             </div>
                         </div>
+                        
                         </div>
                         </div>
 

@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
   </head>
   <body>
-    <h2>Hi {{ $request['sender_name'] }} Thanks For Using Our Courier Service </h2>
+    <p>Sender Name: <b>{{ $request['sender_name'] }}</b></p>
+    <br>
+    <p>Receiver Name: <b>{{ $request['receiver_name'] }}</b></p>
     <hr>
     <p>Your Shipment Has Been Approved</p>
     <br>

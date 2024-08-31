@@ -50,8 +50,7 @@
                                 <br>
                                 <p>Tracking Number: <b>{{ $shipment->tracking_number }}</b></p>
                                 <p>Sender Name: <b>{{ $shipment->sender_name }}</b></p>
-                                <p>Origin: <b>{{ $shipment->from_city }}</b></p>
-                                <p>Destination: <b>{{ $shipment->to_city }}</b></p>
+                                <p>Origin: <b>{{ $shipment->city }}</b></p>
                                 <p>Booking Date:  <b>{{ $shipment->shipping_date }}</b></p>
                             </div>
             
@@ -71,7 +70,34 @@
                                @endif
                             </div>
                         </div>
-                  
+                        <div class="row no-print">
+                            <h2>Order Progress:</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                              @if($shipment->status_shipment === 'Pending')
+                              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0"       aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: 10%"></div>
+                              </div>
+                              @elseif($shipment->status_shipment === 'Approved')
+                              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0"       aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: 30%"></div>
+                              </div>
+            
+                              @elseif($shipment->status_shipment === 'On the way')
+                              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0"       aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: 70%"></div>
+                              </div>
+            
+                              @elseif($shipment->status_shipment === 'Delivered')
+                              <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0"       aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: 100%"></div>
+                              </div>
+            
+                              @endif
+            
+                            </div>
+                        </div>
                         @else
                         <div class="row text-center my-5">
                             <div class="col-md-12">

@@ -5,6 +5,7 @@ Shipment - Create
 @endsection
 
 @section('content')
+<x-alert/>
 <section class="content-main">
     <div class="content-header">
 
@@ -21,13 +22,14 @@ Shipment - Create
                     <form action="{{ route('shipment.store') }}" method="POST">
                         @csrf
                         <div class="row">
+                            @if(auth()->user()->hasRole('admin'))
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="agent_name">Agent Name*</label>
                                   <select id="agent_name" name="agent_name" class="form-select" style="cursor: pointer" > 
                                     <option value="" hidden>Select Agent</option>
                                     @foreach ($agents as $agent )
-                                        <option value="{{ $agent->owner_name }}">{{ $agent->owner_name }}</option>
+                                        <option value="{{ $agent->name }}">{{ $agent->name }}</option>
                                     @endforeach
                                   </select>
                                     @error('agent_name')
@@ -35,6 +37,7 @@ Shipment - Create
                                     @enderror
                                 </div>
                             </div>
+                            @endif
 
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -75,6 +78,16 @@ Shipment - Create
                                     <label for="sender_email">Sender Email*</label>
                                     <input type="email" class="form-control" id="sender_email" name="sender_email" value="{{ old('sender_email') }}">
                                     @error('sender_email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="receiver_email">Receiver Email*</label>
+                                    <input type="email" class="form-control" id="receiver_email" name="receiver_email" value="{{ old('receiver_email') }}">
+                                    @error('receiver_email')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -146,49 +159,32 @@ Shipment - Create
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
+                            @if(auth()->user()->hasRole('agent'))
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="from_country">From Country*</label>
-                                    <input type="text" class="form-control" id="from_country" name="from_country" value="{{ old('from_country') }}">
-                                    @error('from_country')
+                                    <label for="city">City*</label>
+                                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" list="city-list">
+                                    <datalist  id="city-list">
+                                        <option value="{{ $city }}">{{ $city }}</option>
+                                    </datalist>
+                                    @error('city')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-
+                        
+                            @elseif(auth()->user()->hasRole('admin'))
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="to_country">To Country*</label>
-                                    <input type="text" class="form-control" id="to_country" name="to_country" value="{{ old('to_country') }}">
-                                    @error('to_country')
+                                    <label for="city">City*</label>
+                                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
+                                    @error('city')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="from_city">From City*</label>
-                                    <input type="text" class="form-control" id="from_city" name="from_city" value="{{ old('from_city') }}">
-                                    @error('from_city')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="to_city">To City*</label>
-                                    <input type="text" class="form-control" id="to_city" name="to_city" value="{{ old('to_city') }}">
-                                    @error('to_city')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                            @endif
                         </div>
 
                         <div class="row">
@@ -229,16 +225,6 @@ Shipment - Create
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="order_number">Order Refference</label>
-                                    <input type="text" class="form-control" id="order_number" name="order_number" value="{{ old('order_number') }}">
-                                    @error('order_number')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
                         <div class="row my-4">
                             <div class="col-md-12">
@@ -250,7 +236,7 @@ Shipment - Create
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="package_type">Package Type*</label>
+                                    <label for="package_type">Order Type*</label>
                                     <input type="text" class="form-control" id="package_type" name="package_type" value="{{ old('package_type') }}">
                                     @error('package_type')
                                     <span class="text-danger">{{ $message }}</span>

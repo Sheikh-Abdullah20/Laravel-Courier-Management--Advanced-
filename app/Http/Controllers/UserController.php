@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountCreationMail;
 use App\Models\Agent;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
@@ -39,12 +41,15 @@ class UserController extends Controller implements HasMiddleware
             
         })
         ->when($search, function($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%')
-                         ->orWhere('email', 'like', '%' . $search . '%')
-                         ->orWhere('phone','like','%'.$search . '%'); 
+            return $query->where(function($query) use ($search){
+                $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%')
+                ->orWhere('phone','like','%'.$search . '%'); 
+            });
+           
         })
         ->paginate(10);
-        return view('users.index', compact('users'));
+        return view('users.index', compact('users','search'));
     }
 
     public function create()
@@ -76,6 +81,7 @@ class UserController extends Controller implements HasMiddleware
         ]);
 
         if ($user) {
+            $mail = Mail::to($request->email)->send(new AccountCreationMail($request->all()));
             $user->syncRoles('user');
             return redirect()->route('user.index')->with('success', 'User Has Been Created Successfully');
         } else {

@@ -71,6 +71,58 @@
         @endif
     </div>
     
+    <div class="row my-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-responsive table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Shipments Status</th>
+                                        <th>Shipments Status Count</th>
+                                    </tr>
+                                </thead>
+                                @foreach ($statuss as $status )
+        
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @if($status->status_name === 'Pending')
+                                            <p class="bg-danger p-2 text-light"> {{ $status->status_name }}</p>
+        
+                                            @elseif($status->status_name === 'Approved')
+                                            <p class="bg-success p-2 text-light"> {{ $status->status_name }}</p>
+        
+                                            @elseif($status->status_name === 'On the way')
+                                            <p class="bg-primary p-2 text-light"> {{ $status->status_name }}</p>
+        
+                                            @elseif($status->status_name === 'Delivered')
+                                            <p class="bg-warning p-2"> {{ $status->status_name }}</p>
+                                            @else
+                                            <p class="bg-secondary p-2"> {{ $status->status_name }}</p>
+                                            @endif
+        
+                                        </td>
+                                        <td>
+                                            {{ $statusCount[$status->status_name] ?? 0 }}
+                                        </td>
+        
+                                    </tr>
+                                </tbody>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+        
+                  
+               
+        
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 @endsection

@@ -22,21 +22,7 @@ Shipment - Edit
                         @csrf
                         @method('PUT')
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="agent_name">Agent Name*</label>
-                                  <select  id="agent_name" name="agent_name" class="form-select" style="cursor: pointer"> 
-                                    <option value="" hidden>Select Agent</option>
-                                    @foreach ($agents as $agent )
-                                        <option {{ $hasAgent === $agent->owner_name ? 'selected' : '' }} value="{{ $agent->owner_name }}">{{ $agent->owner_name }}</option>
-                                    @endforeach
-                                  </select>
-                                    @error('agent_name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
+                           {{-- <input type="hidden" name="agent_name" value="{{ $shipment->agent_name }}"> --}}
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="shipping_date">Shipping Date*</label>
@@ -80,16 +66,43 @@ Shipment - Edit
                                     @enderror
                                 </div>
                             </div>
-                            @if(auth()->user()->hasRole('admin'))
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="status">Status*</label>
-                                    <select name="status" id="status" class="form-select">
+                                    <label for="receiver_email">Receiver Email*</label>
+                                    <input type="email" class="form-control" id="receiver_email" name="receiver_email" value="{{ $shipment->receiver_email }}">
+                                    @error('receiver_email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">        
+                            @if($shipment->status === 'Approved' || auth()->user()->hasRole('admin'))
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="status">Status Shipment</label>
+                                    <select name="status_shipment" id="status" class="form-select">
                                         @foreach ($statuss as $status )
                                             <option {{ $hasStatus === $status->status_name ? 'selected' : '' }} value="{{ $status->status_name }}">{{ $status->status_name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('status')
+                                    @error('status_shipment')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            @endif
+
+                            @if(auth()->user()->hasRole('admin'))
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="approval">Approval Status</label>
+                                    <select name="approval" id="approval" class="form-select">
+                                    <option {{ $shipment->status === 'Approved' ? 'selected' : '' }} value="Approved">Approved</option>
+                                    <option {{ $shipment->status === 'Pending' ? 'selected' : '' }} value="Pending">Pending</option>
+                                    </select>
+                                    @error('approval')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -163,44 +176,14 @@ Shipment - Edit
                             </div>
                         </div>
 
+                       
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="from_country">From Country*</label>
-                                    <input type="text" class="form-control" id="from_country" name="from_country" value="{{ $shipment->from_country }}">
-                                    @error('from_country')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="to_country">To Country*</label>
-                                    <input type="text" class="form-control" id="to_country" name="to_country" value="{{ $shipment->to_country }}">
-                                    @error('to_country')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="from_city">From City*</label>
-                                    <input type="text" class="form-control" id="from_city" name="from_city" value="{{ $shipment->from_city }}">
-                                    @error('from_city')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="to_city">To City*</label>
-                                    <input type="text" class="form-control" id="to_city" name="to_city" value="{{ $shipment->to_city }}">
-                                    @error('to_city')
+                                    <label for="city">City*</label>
+                                    <input type="text" class="form-control" id="city" name="city" value="{{ $shipment->city }}">
+                                    @error('city')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -247,15 +230,6 @@ Shipment - Edit
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="order_number">Order Refference</label>
-                                    <input type="text" class="form-control" id="order_number" name="order_number" value="{{ $shipment->order_number }}">
-                                    @error('order_number')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
                         <div class="row my-4">
                             <div class="col-md-12">
@@ -267,7 +241,7 @@ Shipment - Edit
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="package_type">Package Type*</label>
+                                    <label for="package_type">Order Type*</label>
                                     <input type="text" class="form-control" id="package_type" name="package_type" value="{{ $shipment->package_type }}">
                                     @error('package_type')
                                     <span class="text-danger">{{ $message }}</span>

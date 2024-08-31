@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agent;
 use App\Models\Rider;
 use App\Models\Shipment;
 use App\Models\User;
@@ -35,7 +34,7 @@ class DownloadReportController extends Controller  implements HasMiddleware
     $generate = function() use ($shipments){
         $file = fopen('php://output','w');
 
-        fputcsv($file, ['Shipment_id','Agent_Name','Tracking_Number','Order_Number','Sender_Name','Receiver_Name','Receiver_Phone','Sender Email','Pickup_Address','Delivery_Address','Agent_Name','Shipment_Date','Return_Address','Return_City','From_Country','To_Country','From_City','To_City','From_Area','To_Area','Status','Descripiton','Quantity','Weight','Payment_Method','Amount']);
+        fputcsv($file, ['Shipment_id','Agent_Name','Tracking_Number','Order_Number','Sender_Name','Receiver_Name','Receiver_Phone','Sender Email','Pickup_Address','Delivery_Address','Agent_Name','Shipment_Date','Return_Address','Return_City','From_Country','To_Country','From_City','To_City','From_Area','To_Area','Status','Descripiton','Quantity','Weight','Payment_Method','Amount','created_at']);
 
 
     foreach($shipments as $shipment){
@@ -66,6 +65,7 @@ class DownloadReportController extends Controller  implements HasMiddleware
             $shipment->weight,
             $shipment->payment_method,
             $shipment->amount,
+            $shipment->created_at,
         ]);
     }
     fclose($file);
@@ -73,7 +73,7 @@ class DownloadReportController extends Controller  implements HasMiddleware
 
 return response()->stream($generate,200,$headers);
 }else{
-    $shipments = Shipment::where('agent_name',Auth::user()->name)->get();
+    $shipments = Shipment::where('user_id',Auth::user()->id)->get();
     $filename = 'Shipment_Report_' . time() . '.csv';
    
 
@@ -87,7 +87,7 @@ return response()->stream($generate,200,$headers);
     $generate = function() use ($shipments){
         $file = fopen('php://output','w');
 
-        fputcsv($file, ['Shipment_id','Agent_Name','Tracking_Number','Order_Number','Sender_Name','Receiver_Name','Receiver_Phone','Sender Email','Pickup_Address','Delivery_Address','Agent_Name','Shipment_Date','Return_Address','Return_City','From_Country','To_Country','From_City','To_City','From_Area','To_Area','Status','Descripiton','Quantity','Weight','Payment_Method','Amount']);
+        fputcsv($file, ['Shipment_id','Agent_Name','Tracking_Number','Order_Number','Sender_Name','Receiver_Name','Receiver_Phone','Sender Email','Pickup_Address','Delivery_Address','Agent_Name','Shipment_Date','Return_Address','Return_City','City','From_Area','To_Area','Status','shipment_status','Descripiton','Quantity','Weight','Payment_Method','Amount','created_at']);
 
 
     foreach($shipments as $shipment){
@@ -106,18 +106,17 @@ return response()->stream($generate,200,$headers);
             $shipment->shipping_date,
             $shipment->return_address,
             $shipment->return_city,
-            $shipment->from_country,
-            $shipment->to_country,
-            $shipment->from_city,
-            $shipment->to_city,
+            $shipment->city,
             $shipment->from_area,
             $shipment->to_area,
             $shipment->status,
+            $shipment->status_shipment,
             $shipment->descripiton,
             $shipment->quantity,
             $shipment->weight,
             $shipment->payment_method,
             $shipment->amount,
+            $shipment->created_at,
         ]);
     }
     fclose($file);
@@ -149,7 +148,7 @@ public function userReport(){
             'id',
             'Name',
             'Email',
-            'Country',
+            'City',
             'Phone',
             'Address',
             'Date Of Birth',
@@ -162,7 +161,7 @@ public function userReport(){
                 $user->id,
                 $user->name,
                 $user->email,
-                $user->country,
+                $user->city,
                 $user->phone,
                 $user->address,
                 $user->dob,
@@ -178,7 +177,9 @@ public function userReport(){
 
 
 public function agentReport(){
-    $agents = Agent::all();
+    $agents = User::with('roles')->whereHas('roles',function($query){
+        $query->where('name','agent');
+    })->get();
 
     $filename = 'Agent_Report_' . time() . '.csv';
 
@@ -192,22 +193,22 @@ public function agentReport(){
 
         fputcsv($file,[
             'id',
-            'Owner Name',
-            'Owner Phone',
+            'Name',
             'Email',
-            'Branch Name',
-            'Branch Address',
+            'Phone',
+            'Branch',
+            'Address',
             'Created_at'
         ]);
 
         foreach($agents as $agent){
             fputcsv($file,[
                 $agent->id,
-                $agent->owner_name,
-                $agent->owner_phone,
+                $agent->name,
                 $agent->email,
-                $agent->branch_name,
-                $agent->branch_address,
+                $agent->phone,
+                $agent->branch,
+                $agent->address,
                 $agent->created_at
             ]);
         }

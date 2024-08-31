@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agent;
+use App\Mail\AccountCreationMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Mail;
 
 class AgentController extends Controller implements HasMiddleware
 {
@@ -24,23 +25,25 @@ class AgentController extends Controller implements HasMiddleware
     {
         if ($request->filled('selected')) {
             $selectedId = $request->selected;
-
-            $agents = Agent::whereIn('id', $selectedId)->get();
-            $email_agent = $agents->pluck('email')->toArray();
-
-            $users = User::whereIn('email', $email_agent)->delete();
-            $agentsDelete = Agent::whereIn('id', $selectedId)->delete();
-
+            $agents = User::whereIn('id', $selectedId)->delete();
             return redirect()->back()->with('delete', 'Selected Agents deleted successfully');
         }
-        $search = $request->search;    
-        $agents = Agent::when($search, function ($query) use ($search){
-            return $query->where('owner_name','like','%' . $search . '%')
-            ->orwhere('email','like','%' . $search . '%')
-            ->orWhere('branch_name','like','%' . $search . '%')
-            ->orWhere('branch_status',$search);
-        })->paginate(10);
-        return view('agents.index', compact('agents'));
+            $search = $request->search;   
+         $agents = User::with('roles')->whereHas('roles', function($query){
+            $query->where('name','agent');
+            
+        })
+        ->when($search, function($query, $search) {
+            return $query->where(function($query) use ($search){
+                $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%')
+                ->orWhere('phone','like','%'.$search . '%')
+                ->orWhere('address','like', '%' . $search . '%');
+            });
+            
+        })
+        ->paginate(10);
+        return view('agents.index', compact('agents','search'));
     }
 
     public function create()
@@ -55,51 +58,41 @@ class AgentController extends Controller implements HasMiddleware
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'address' => 'required',
-            'owner_name' => 'required',
-            'owner_phone' => 'required',
+            'branch_name' => 'required',
             'city' => 'required',
+            'phone' => 'required',
         ]);
-
-        $agent = Agent::create([
-            'branch_name' => $request->name,
-            'branch_address' => $request->address,
-            'owner_name' => $request->owner_name,
-            'owner_phone' => $request->owner_phone,
+       
+        $agent = User::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'branch' => $request->branch_name,
+            'phone' => $request->phone,
             'email' => $request->email,
+            'city' => $request->city,
+            'password' => $request->password,
+           
         ]);
-
-        if ($agent) {
-            $user = User::create([
-                'name' => $request->owner_name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'address' => $request->address,
-                'city' => $request->city,
-                'phone' => $request->owner_phone,
-            ]);
-            if ($user) {
-                $user->syncRoles('agent');
-                return redirect()->route('agent.index')->with('success', 'Agent created successfully');
-            } else {
-                return redirect()->route('agent.index')->with('error', 'Failed to create user for agent');
-            }
-        } else {
-            return redirect()->route('agent.index')->with('error', 'Failed to create agent');
+        if($agent){
+            $mail = Mail::to($request->email)->send(new AccountCreationMail($request->all()));
+            $agent->syncRoles('agent');
+            return redirect()->route('agent.index')->with('success','Agent Created Succesfully');
+        }else{
+            return redirect()->route('agent.index')->with('error','Failed to Create Agent');
         }
     }
 
     public function show(string $id)
     {
-        $agent = Agent::find($id);
+        $agent = User::find($id);
        
         return view('agents.show', compact('agent'));
     }
 
     public function edit(string $id)
     {
-        $agent = Agent::find($id);
-        $hasStatus = $agent->branch_status;
-        return view('agents.edit', compact('agent','hasStatus'));
+        $agent = User::find($id);
+        return view('agents.edit', compact('agent'));
     }
 
     public function update(Request $request, string $id)
@@ -108,33 +101,20 @@ class AgentController extends Controller implements HasMiddleware
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
-            'owner_name' => 'required',
-            'owner_phone' => 'required',
+            'branch' => 'required',
+            'phone' => 'required',
         ]);
-        $agent = Agent::find($id);
-        $agent_email = $agent->email;
-
-        $user = User::where('email', $agent_email)->first();
-        if ($user) {
-            $user->update([
-                'name' => $request->owner_name,
-                'email' => $request->email,
-                'address' => $request->address,
-                'phone' => $request->owner_phone,
-                
-            ]);
-        }
+        $agent = User::find($id);
         if ($agent) {
             $updated = $agent->update([
-                'branch_name' => $request->name,
+                'name' => $request->name,
                 'email' => $request->email,
-                'branch_address' => $request->address,
-                'owner_name' => $request->owner_name,
-                'owner_phone' => $request->owner_phone,
-                'branch_status' => $request->branch_status
+                'address' => $request->address,
+                'branch' => $request->branch,
+                'phone' => $request->phone,
             ]);
 
-            if ($updated && $user) {
+            if ($updated) {
                 return redirect()->route('agent.index')->with('success', 'Agent updated successfully');
             } else {
                 return redirect()->route('agent.index')->with('error', 'Failed to update agent');
@@ -147,10 +127,9 @@ class AgentController extends Controller implements HasMiddleware
 
     public function destroy(string $id)
     {
-        $agent = Agent::find($id);
-        $user = User::where('email', $agent->email)->first();
-        if ($agent && $user) {
-            if ($agent->delete() && $user->delete()) {
+        $agent = User::find($id); $user = User::where('email', $agent->email)->first();
+        if ($agent) {
+            if ($agent->delete()) {
                 return redirect()->route('agent.index')->with('delete', 'Agent deleted successfully');
             } else {
                 return redirect()->route('agent.index')->with('error', 'Failed to delete agent');

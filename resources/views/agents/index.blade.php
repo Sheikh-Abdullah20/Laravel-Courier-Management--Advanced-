@@ -26,7 +26,7 @@ Agents - View
                 <div class="card-body">
                     <div class="row my-3 ">
                         <div class="col-md-6 d-flex justify-content-start">
-                            <form action="{{ route('agent.index') }}" method="GET" class="d-flex">
+                            <form action="{{ route('agent.index') }}" method="GET" class="w-50 d-flex">
                                 <input type="search" class="form-control" name="search" placeholder="Search Here..">
                                 <button class="btn btn-dark mx-2" type="submit">Search</button>
                             </form>
@@ -53,17 +53,14 @@ Agents - View
                                 <th>Select</th>
                                 @endif
                                
-                                <th>Agent Name</th>
-                                <th>Branch Name</th>
+                                <th>Name</th>
+                                <th>Branch</th>
                                 <th>Email</th>
-                                <th>Agent Phone</th>
-                                <th>Branch Address</th>
-                                <th>Branch Status</th>
+                                <th>Phone</th>
+                                <th> Address</th>
                                 @if(auth()->user()->hasPermissionTo('edit agents') || auth()->user()->hasPermissionTo('show agents'))
                                 <th>Actions</th>
-                                @elseif(auth()->user()->hasPermissionTo('delete agents'))
-                                <th>Actions</th>
-                                @elseif(auth()->user()->hasRole('admin'))
+                                @elseif(auth()->user()->hasPermissionTo('delete agents') || auth()->user()->hasRole('admin'))
                                 <th>Actions</th>
                                 @endif
                             </tr>
@@ -86,18 +83,11 @@ Agents - View
                                 </td>
                                 @endif
                                
-                                <td>{{$agent->owner_name}}</td>
-                                <td>{{ $agent->branch_name}}</td>
+                                <td>{{$agent->name}}</td>
+                                <td>{{ $agent->branch}}</td>
                                 <td>{{ $agent->email }}</td>
-                                <td>{{ $agent->owner_phone }}</td>
-                                <td class="w-25">{{ $agent->branch_address }}</td>
-                                <td>
-                                    @if($agent->branch_status === 'Active')
-                                    <p class="bg-success rounded text-light ">{{ $agent->branch_status }}</p>
-                                    @elseif($agent->branch_status === 'In-Active')
-                                    <p class="bg-danger rounded text-light ">{{ $agent->branch_status }}</p>
-                                    @endif
-                                </td>
+                                <td>{{ $agent->phone }}</td>
+                                <td>{{ $agent->address }}</td>
                                 <td>
                                     <div class="row justify-content-center">
                                         @can('show agents')
@@ -126,6 +116,9 @@ Agents - View
                             @endforeach
                         </tbody>
                     </table>
+                    @if($agents->isEmpty())
+                    <div class="alert alert-warning">No Agent Found withn Your Search [{{ $search }}]</div>
+                    @endif
                 </div>
                 </div>
             </div>
