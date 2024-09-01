@@ -12,8 +12,19 @@ Reports
         </div>
     </div>
     <hr>
-   <div class="row">
-    <div class="col-md-12 ">
+    <div class="row">
+       @if($shipments->isNotEmpty() && !empty($date) || !empty($city))
+        <div class="col-md-4">
+        <form action="{{ route('report.index') }}" method="GET">
+            <input type="hidden" value="{{ $date }}" name="date">
+            <input type="hidden" value="{{ $city }}" name="city">
+            <button type="submit" class="btn btn-dark" name="download">Download Report<i
+                class="icon material-icons md-get_app"></i></button>
+        </form>
+        </div>
+
+    @endif
+    <div class="col-md-8 ">
         <form action="{{ route('report.index') }}" method="GET" class="d-flex justify-content-end mb-4">
         <input type="date" class="form-control w-25 mx-2" name="date">
             <select class="form-select w-25" name="city">
@@ -87,13 +98,13 @@ Reports
                             </td>
                             <td>
                                 @if($shipment->status_shipment === 'Pending')
-                                <p class="bg-danger p-1 text-light">{{ $shipment->status }}</p>
+                                <p class="bg-danger p-1 text-light">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'Approved')
-                                <p class="bg-success p-1 text-light">{{ $shipment->status }}</p>
+                                <p class="bg-success p-1 text-light">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'On the way')
-                                <p class="bg-primary p-1 text-light">{{ $shipment->status }}</p>
+                                <p class="bg-primary p-1 text-light">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'Delivered')
-                                <p class="bg-warning p-1 text-light">{{ $shipment->status }}</p>
+                                <p class="bg-warning p-1 text-light">{{ $shipment->status_shipment }}</p>
                                 @endif
                             </td>
                             <td>{{ $shipment->payment_method }}</td>

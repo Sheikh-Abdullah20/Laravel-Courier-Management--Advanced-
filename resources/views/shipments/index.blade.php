@@ -130,7 +130,7 @@ Shipments - View
                                 @endcan
                                 @can('download reports')
                                 <a href="{{ route('download_shipment') }}" class="btn btn-secondary"><i
-                                        class="icon material-icons md-cloud_download"></i></a>
+                                        class="icon material-icons md-get_app"></i></a>
                                 @endcan
                             </div>
                         </div>

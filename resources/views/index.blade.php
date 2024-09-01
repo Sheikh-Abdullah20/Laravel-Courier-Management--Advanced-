@@ -77,7 +77,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-bordered table-responsive table-striped text-center">
+                            <table class="table  text-center">
                                 <thead>
                                     <tr>
                                         <th>Shipments Status</th>
@@ -115,7 +115,7 @@
         
                                         </td>
                                         <td>
-                                            {{ $statusCount[$status->status_name] ?? 0 }}
+                                          <p class="bg-secondary p-3 w-25 m-auto rounded text-light"> {{ $statusCount[$status->status_name] ?? 0 }}</p>
                                         </td>
         
                                     </tr>
