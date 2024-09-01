@@ -24,23 +24,21 @@ class AdminController extends Controller
             
             $statuss = Status::all();
             $shipments = Shipment::all();
-            $agents = User::with('roles')->whereHas('roles',function($query){
-                $query->where('name', 'agent');
-            })->get();
-            $statusCount =  $shipments->countBy('status');
+            $statusCount =  $shipments->countBy('status_shipment');
 
             $riders = Rider::all();
             return view('index',compact('agents','shipments','users','riders','statuss','statusCount'));
 
         }elseif(Auth::user()->hasRole('agent')){
-            $shipments = Shipment::where('agent_name', Auth::user()->name)->get();
-            return view('index',compact('shipments'));
+            $statuss = Status::all();
+            $shipments = Shipment::where('user_id', Auth::user()->id)->get();
+            $statusCount =  $shipments->countBy('status_shipment');
+            return view('index',compact('shipments','statuss','statusCount'));
         }else{
-            if(Auth::user()->hasPermissionTo('view dashboard')){
-                return view('index');
-            }else{
-                return view('trackings.index');
-            }
+            $statuss = Status::all();
+            $shipments = Shipment::where('receiver_email', Auth::user()->email)->get();
+            $statusCount =  $shipments->countBy('status_shipment');
+            return view('index',compact('shipments','statuss','statusCount'));
         }
         
     }

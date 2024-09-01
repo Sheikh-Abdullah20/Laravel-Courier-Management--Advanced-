@@ -172,9 +172,12 @@ class ShipmentController extends Controller implements HasMiddleware
         }
     }else{
        
+
         if(Auth::user()->city !== $request->city ){
             return redirect()->back()->with('error','You cannot create Other Cities shipment');
         }
+        $agent_id =  $request->agent_name;
+        $user = User::find($agent_id);
        
         $request->validate([
             'shipping_date' =>'required',
@@ -224,7 +227,7 @@ class ShipmentController extends Controller implements HasMiddleware
             'description' => $request->description,
             'order_number' => $order_number,
             'tracking_number' => $tracking_number,
-            'user_id' => Auth::user()->id
+            'user_id' => $user->id
         ]);
 
         if($shipment){
@@ -263,6 +266,7 @@ class ShipmentController extends Controller implements HasMiddleware
    
     public function update(Request $request, string $id)
     {
+       
         $request->validate([
             'shipping_date' =>'required',
             'sender_name' =>'required',
@@ -312,7 +316,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 'description' => $request->description,
                 'status_shipment' => $request->status_shipment,
                 'status' => $request->approval,
-                'user_id' => Auth::user()->id,
+                'user_id' => $shipment->user_id,
             ]);
             if($updated){
                 $sender_email = $shipment->sender_email;
@@ -329,6 +333,8 @@ class ShipmentController extends Controller implements HasMiddleware
                 return redirect()->route('shipment.index')->with('error','Failed to update shipment');
                }
         }elseif($shipment){
+            $agent_id =  $request->agent_name;
+            $user = User::find($agent_id);
             $updated = $shipment->update([
                 'agent_name' => $shipment->agent_name,
                 'shipping_date' => $request->shipping_date,
@@ -351,7 +357,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 'amount' => $request->amount,
                 'description' => $request->description,
                 'status_shipment' => $request->status_shipment,
-                'user_id' => Auth::user()->id,
+                'user_id' => $shipment->user_id,
             ]);
             if($updated){
                 $sender_email = $shipment->sender_email;
