@@ -109,7 +109,6 @@ class ShipmentController extends Controller implements HasMiddleware
    if(Auth::user()->hasRole('admin')){
     $agent_id =  $request->agent_name;
     $user = User::find($agent_id);
-    // return $user;
         $request->validate([
             'agent_name' => 'required',
             'shipping_date' =>'required',

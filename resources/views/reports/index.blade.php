@@ -91,20 +91,22 @@ Reports
                                 <td>{{ $shipment->receiver_name}}</td>
                                 <td>
                                 @if($shipment->status === 'Approved')
-                                <p class="bg-success p-1 text-light">{{ $shipment->status }}</p>
+                                <p class="bg-success p-1 text-light rounded">{{ $shipment->status }}</p>
                                 @elseif($shipment->status === 'Pending')
-                                <p class="bg-danger p-1 text-light">{{ $shipment->status }}</p>
+                                <p class="bg-danger p-1 text-light rounded">{{ $shipment->status }}</p>
                                 @endif
                             </td>
                             <td>
                                 @if($shipment->status_shipment === 'Pending')
-                                <p class="bg-danger p-1 text-light">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-danger p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'Approved')
-                                <p class="bg-success p-1 text-light">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-success p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'On the way')
-                                <p class="bg-primary p-1 text-light">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-primary p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'Delivered')
-                                <p class="bg-warning p-1 text-light">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-warning p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
+                                @else
+                                <p class="bg-secondary p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
                                 @endif
                             </td>
                             <td>{{ $shipment->payment_method }}</td>
