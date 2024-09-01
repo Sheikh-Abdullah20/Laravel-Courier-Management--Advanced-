@@ -30,7 +30,7 @@ Shipments - View
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 @php $count = 0; @endphp
-                                <table class="table table-bordered  table-striped text-center p-5">
+                                <table class="table table-striped text-center">
                                     <thead>
                                         <tr>
                                             @if(auth()->user()->hasPermissionTo('print'))

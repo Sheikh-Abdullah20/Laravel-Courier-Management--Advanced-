@@ -28,7 +28,7 @@
             </div>
         </div>
         @endif
-        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
+       
         <div class="col-lg-3">
             <div class="card card-body mb-4">
                 <article class="icontext">
@@ -41,7 +41,7 @@
                 </article>
             </div>
         </div>
-        @endif
+     
         @if(auth()->user()->hasRole('admin'))
         <div class="col-lg-3">
             <div class="card card-body mb-4">

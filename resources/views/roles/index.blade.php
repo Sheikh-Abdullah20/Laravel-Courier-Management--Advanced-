@@ -32,7 +32,7 @@ Roles - View
                     </div>
                     @endcan
                     <div class="table-responsive">
-                    <table id="roleTable" class="table table-bordered  table-striped text-center">
+                    <table id="roleTable" class="table  table-striped text-center">
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete roles'))

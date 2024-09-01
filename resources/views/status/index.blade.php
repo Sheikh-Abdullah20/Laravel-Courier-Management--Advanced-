@@ -33,7 +33,7 @@ Status - View
                         </div>
                         @endcan
                     <div class="table-responsive">
-                    <table id="statusTable" class="table table-bordered  table-striped text-center">
+                    <table id="statusTable" class="table  table-striped text-center">
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete status'))

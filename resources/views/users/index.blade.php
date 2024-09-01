@@ -49,7 +49,7 @@
                     <form id="form" action="{{ route('user.index') }}" method="GET">
                         @csrf
                         <div class="table-responsive">
-                        <table id="userTable" class="table table-bordered table-responsive table-striped text-center">
+                        <table id="userTable" class="table  table-striped text-center">
                             <thead>
                                 <tr>
                                     @if(auth()->user()->hasPermissionTo('delete users'))

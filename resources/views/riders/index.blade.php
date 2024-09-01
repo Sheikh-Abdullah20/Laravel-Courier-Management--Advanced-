@@ -38,7 +38,7 @@ Riders - View
                 <form id="form" action="{{ route('rider.index') }}" method="GET">
                     @csrf
                     <div class="table-responsive">
-                    <table  class="table table-bordered table-responsive table-striped text-center">
+                    <table  class="table table-striped text-center">
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete riders'))

@@ -33,7 +33,7 @@ Permission - View
                         </div>
                         @endcan
                     <div class="table-responsive">
-                    <table id="permissionTable" class="table table-bordered  table-striped text-center">
+                    <table id="permissionTable" class="table  table-striped text-center">
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete permissions'))
