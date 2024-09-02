@@ -28,17 +28,20 @@ class AdminController extends Controller
             $statusCount = $shipments->countBy('status_shipment');
 
             $riders = Rider::all();
+
             return view('index', compact('agents', 'shipments', 'users', 'riders', 'statuss', 'statusCount'));
 
         } elseif (Auth::user()->hasRole('agent')) {
             $statuss = Status::all();
             $shipments = Shipment::where('user_id', Auth::user()->id)->get();
             $statusCount = $shipments->countBy('status_shipment');
+
             return view('index', compact('shipments', 'statuss', 'statusCount'));
         } else {
             $statuss = Status::all();
             $shipments = Shipment::where('receiver_email', Auth::user()->email)->get();
             $statusCount = $shipments->countBy('status_shipment');
+
             return view('index', compact('shipments', 'statuss', 'statusCount'));
         }
 

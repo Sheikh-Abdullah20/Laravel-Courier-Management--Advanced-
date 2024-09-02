@@ -24,9 +24,11 @@ class PermissionController extends Controller implements HasMiddleware
         if ($request->filled('selected')) {
             $selectedId = $request->selected;
             Permission::whereIn('id', $selectedId)->delete();
+
             return redirect()->back()->with('delete', 'Selected permissions deleted successfully');
         }
         $permissions = Permission::Paginate(10);
+
         return view('permissions.index', compact('permissions'));
     }
 

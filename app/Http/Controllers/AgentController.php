@@ -27,6 +27,7 @@ class AgentController extends Controller implements HasMiddleware
         if ($request->filled('selected')) {
             $selectedId = $request->selected;
             $agents = User::whereIn('id', $selectedId)->delete();
+
             return redirect()->back()->with('delete', 'Selected Agents deleted successfully');
         }
         $search = $request->search;
@@ -36,14 +37,15 @@ class AgentController extends Controller implements HasMiddleware
         })
             ->when($search, function ($query, $search) {
                 return $query->where(function ($query) use ($search) {
-                    $query->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%')
-                        ->orWhere('phone', 'like', '%' . $search . '%')
-                        ->orWhere('address', 'like', '%' . $search . '%');
+                    $query->where('name', 'like', '%'.$search.'%')
+                        ->orWhere('email', 'like', '%'.$search.'%')
+                        ->orWhere('phone', 'like', '%'.$search.'%')
+                        ->orWhere('address', 'like', '%'.$search.'%');
                 });
 
             })
             ->paginate(10);
+
         return view('agents.index', compact('agents', 'search'));
     }
 
@@ -77,6 +79,7 @@ class AgentController extends Controller implements HasMiddleware
         if ($agent) {
             $mail = Mail::to($request->email)->send(new AccountCreationMail($request->all()));
             $agent->syncRoles('agent');
+
             return redirect()->route('agent.index')->with('success', 'Agent Created Succesfully');
         } else {
             return redirect()->route('agent.index')->with('error', 'Failed to Create Agent');
@@ -93,6 +96,7 @@ class AgentController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $agent = User::find($id);
+
         return view('agents.edit', compact('agent'));
     }
 

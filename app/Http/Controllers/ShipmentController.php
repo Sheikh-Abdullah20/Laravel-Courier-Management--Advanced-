@@ -41,11 +41,12 @@ class ShipmentController extends Controller implements HasMiddleware
             } else {
                 return redirect()->route('shipment.index')->with('error', 'Shipments not Deleted Something went wrong');
             }
-        } else if ($action === 'print') {
+        } elseif ($action === 'print') {
             $selectedIds = $request->selected;
             $rider = $request->rider_id;
             $findRider = Rider::find($rider);
             $shipments = Shipment::whereIn('id', $selectedIds)->get();
+
             return view('shipments.print', compact('selectedIds', 'shipments', 'findRider'));
 
         }
@@ -74,11 +75,12 @@ class ShipmentController extends Controller implements HasMiddleware
             }
             if ($statusSearch) {
                 $shipments->where('status_shipment', $statusSearch);
-            } 
+            }
             if ($search_tracking_number) {
                 $shipments->where('tracking_number', $search_tracking_number);
-            } 
+            }
             $shipments = $shipments->paginate(10);
+
             return view('shipments.index', compact('shipments', 'statuss', 'agents', 'riders'));
 
         } elseif (Auth::user()->hasRole('agent')) {
@@ -98,7 +100,7 @@ class ShipmentController extends Controller implements HasMiddleware
             $shipments = Shipment::query();
             if ($agentSearch) {
                 $shipments->where('agent_name', $agentSearch);
-            } 
+            }
             if ($statusSearch) {
                 $shipments->where('status_shipment', $statusSearch);
             }
@@ -108,6 +110,7 @@ class ShipmentController extends Controller implements HasMiddleware
             $shipments = $shipments->where('user_id', Auth::user()->id)->paginate(10);
 
             $riders = Rider::all();
+
             return view('shipments.index', compact('shipments', 'statuss', 'agents', 'riders'));
         } else {
             $statuss = Status::all();
@@ -123,10 +126,10 @@ class ShipmentController extends Controller implements HasMiddleware
             $shipments = Shipment::query();
             if ($statusSearch) {
                 $shipments->where('status_shipment', $statusSearch);
-            } 
-            if ($search_tracking_number) {    
+            }
+            if ($search_tracking_number) {
                 $shipments->where('tracking_number', $search_tracking_number);
-            } 
+            }
             $shipments = $shipments->where('receiver_email', Auth::user()->email)->paginate(10);
 
             return view('shipments.index', compact('shipments', 'statuss'));
@@ -146,6 +149,7 @@ class ShipmentController extends Controller implements HasMiddleware
 
         } else {
             $city = Auth::user()->city;
+
             return view('shipments.create', compact('city'));
 
         }
@@ -216,6 +220,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 })->pluck('email');
 
                 Mail::to($users)->send(new shipmentCreationMail($request->all(), $shipment));
+
                 return redirect()->route('shipment.index')->with('success', 'Shipment created successfully');
             } else {
                 return redirect()->route('shipment.create')->with('error', 'Failed to create shipment');
@@ -284,6 +289,7 @@ class ShipmentController extends Controller implements HasMiddleware
                     $query->where('name', 'admin');
                 })->pluck('email');
                 Mail::to($users)->send(new shipmentCreationMail($request->all(), $shipment));
+
                 return redirect()->route('shipment.index')->with('success', 'Shipment created successfully');
             } else {
                 return redirect()->route('shipment.create')->with('error', 'Failed to create shipment');
@@ -295,6 +301,7 @@ class ShipmentController extends Controller implements HasMiddleware
     {
         $shipment = Shipment::find($id);
         $url = Route('shipment.show', $shipment->id);
+
         return view('shipments.show', compact('shipment', 'url'));
     }
 
@@ -308,6 +315,7 @@ class ShipmentController extends Controller implements HasMiddleware
         $hasAgent = $shipment->agent_name;
         $hasStatus = $shipment->status_shipment;
         $statuss = Status::all();
+
         // return $hasAgent;
         return view('shipments.edit', compact('shipment', 'hasAgent', 'statuss', 'hasStatus'));
     }
@@ -382,6 +390,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 } elseif ($shipment->status_shipment === 'Delivered') {
                     $mail = Mail::to([$sender_email, $receiver_email])->send(new deliveredShipmentMail($request->all(), $shipment));
                 }
+
                 return redirect()->route('shipment.index')->with('success', 'Shipment updated successfully');
             } else {
                 return redirect()->route('shipment.index')->with('error', 'Failed to update shipment');
@@ -423,6 +432,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 } elseif ($shipment->status_shipment === 'Delivered') {
                     $mail = Mail::to([$sender_email, $receiver_email])->send(new deliveredShipmentMail($request->all(), $shipment));
                 }
+
                 return redirect()->route('shipment.index')->with('success', 'Shipment updated successfully');
             } else {
                 return redirect()->route('shipment.index')->with('error', 'Failed to update shipment');
@@ -435,6 +445,7 @@ class ShipmentController extends Controller implements HasMiddleware
         $shipment = Shipment::find($id);
         if ($shipment) {
             $shipment->delete();
+
             return redirect()->route('shipment.index')->with('delete', 'Shipment deleted successfully');
         } else {
             return redirect()->route('shipment.index')->with('error', 'Failed to delete shipment');

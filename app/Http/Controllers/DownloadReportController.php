@@ -20,15 +20,16 @@ class DownloadReportController extends Controller implements HasMiddleware
             new Middleware('permission:download reports', ['only' => 'userReport']),
         ];
     }
+
     public function shipmentReport()
     {
         if (Auth::user()->hasRole('admin')) {
             $shipments = Shipment::all();
-            $filename = 'Shipment_Report_' . time() . '.csv';
+            $filename = 'Shipment_Report_'.time().'.csv';
 
             $headers = [
                 'Content-Type' => 'text/csv',
-                'Content-Dissposition' => 'attachments; filename="' . $filename . '"',
+                'Content-Dissposition' => 'attachments; filename="'.$filename.'"',
             ];
 
             $generate = function () use ($shipments) {
@@ -73,11 +74,11 @@ class DownloadReportController extends Controller implements HasMiddleware
             return response()->stream($generate, 200, $headers);
         } elseif (Auth::user()->hasRole('agent')) {
             $shipments = Shipment::where('user_id', Auth::user()->id)->get();
-            $filename = 'Shipment_Report_' . time() . '.csv';
+            $filename = 'Shipment_Report_'.time().'.csv';
 
             $headers = [
                 'Content-Type' => 'text/csv',
-                'Content-Dissposition' => 'attachments; filename="' . $filename . '"',
+                'Content-Dissposition' => 'attachments; filename="'.$filename.'"',
             ];
 
             $generate = function () use ($shipments) {
@@ -120,11 +121,11 @@ class DownloadReportController extends Controller implements HasMiddleware
             return response()->stream($generate, 200, $headers);
         } else {
             $shipments = Shipment::where('receiver_email', Auth::user()->email)->get();
-            $filename = 'Shipment_Report_' . time() . '.csv';
+            $filename = 'Shipment_Report_'.time().'.csv';
 
             $headers = [
                 'Content-Type' => 'text/csv',
-                'Content-Dissposition' => 'attachments; filename="' . $filename . '"',
+                'Content-Dissposition' => 'attachments; filename="'.$filename.'"',
             ];
 
             $generate = function () use ($shipments) {
@@ -175,11 +176,11 @@ class DownloadReportController extends Controller implements HasMiddleware
             $query->where('name', 'user');
         })->get();
 
-        $filename = 'User_Report_' . time() . '.csv';
+        $filename = 'User_Report_'.time().'.csv';
 
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Dissposition' => 'attachments, filename="' . $filename . '"',
+            'Content-Dissposition' => 'attachments, filename="'.$filename.'"',
         ];
 
         $generate = function () use ($users) {
@@ -221,11 +222,11 @@ class DownloadReportController extends Controller implements HasMiddleware
             $query->where('name', 'agent');
         })->get();
 
-        $filename = 'Agent_Report_' . time() . '.csv';
+        $filename = 'Agent_Report_'.time().'.csv';
 
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Dissposition' => 'attachment , filename="' . $filename . '"',
+            'Content-Dissposition' => 'attachment , filename="'.$filename.'"',
         ];
 
         $generate = function () use ($agents) {
@@ -262,11 +263,11 @@ class DownloadReportController extends Controller implements HasMiddleware
     {
         $riders = Rider::all();
 
-        $filename = 'Rider_Report' . time() . '.csv';
+        $filename = 'Rider_Report'.time().'.csv';
 
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Dissposition' => 'attachment , filename="' . $filename . '"',
+            'Content-Dissposition' => 'attachment , filename="'.$filename.'"',
         ];
 
         $generate = function () use ($riders) {

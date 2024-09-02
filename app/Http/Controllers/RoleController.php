@@ -10,7 +10,6 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller implements HasMiddleware
 {
-
     public static function middleware(): array
     {
         return [
@@ -20,20 +19,24 @@ class RoleController extends Controller implements HasMiddleware
             new Middleware('permission:delete roles', ['only' => 'destroy']),
         ];
     }
+
     public function index(Request $request)
     {
         if ($request->filled('selected')) {
             $selectedId = $request->selected;
             Role::whereIn('id', $selectedId)->delete();
+
             return redirect()->back()->with('delete', 'Selected Roles Has Been Deleted Sucessfully');
         }
         $roles = Role::paginate(10);
+
         return view('roles.index', compact('roles'));
     }
 
     public function create()
     {
         $permissions = Permission::all();
+
         return view('roles.create', compact('permissions'));
     }
 
@@ -52,6 +55,7 @@ class RoleController extends Controller implements HasMiddleware
                     $role->givePermissionTo($permission);
                 }
             }
+
             return redirect()->route('role.index')->with('success', 'Role created successfully');
         } else {
             return redirect()->route('role.index')->with('error', 'Failed to create role');
@@ -63,6 +67,7 @@ class RoleController extends Controller implements HasMiddleware
         $role = Role::find($id);
         $permissions = Permission::all();
         $hasPermissions = $role->permissions->pluck('name');
+
         // return $hasPermissions;
         return view('roles.edit', compact('role', 'permissions', 'hasPermissions'));
     }
@@ -80,6 +85,7 @@ class RoleController extends Controller implements HasMiddleware
 
             if ($updated) {
                 $role->syncPermissions($request->permission);
+
                 return redirect()->route('role.index')->with('success', 'Role updated successfully');
             } else {
                 return redirect()->route('role.index', $id)->with('error', 'Failed to update role');

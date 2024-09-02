@@ -13,7 +13,6 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
 {
-
     public static function middleware(): array
     {
         return [
@@ -24,6 +23,7 @@ class UserController extends Controller implements HasMiddleware
             new Middleware('permission:delete users', ['only' => 'destroy']),
         ];
     }
+
     public function index(Request $request)
     {
         if ($request->filled('selected')) {
@@ -42,13 +42,14 @@ class UserController extends Controller implements HasMiddleware
         })
             ->when($search, function ($query, $search) {
                 return $query->where(function ($query) use ($search) {
-                    $query->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%')
-                        ->orWhere('phone', 'like', '%' . $search . '%');
+                    $query->where('name', 'like', '%'.$search.'%')
+                        ->orWhere('email', 'like', '%'.$search.'%')
+                        ->orWhere('phone', 'like', '%'.$search.'%');
                 });
 
             })
             ->paginate(10);
+
         return view('users.index', compact('users', 'search'));
     }
 
@@ -83,6 +84,7 @@ class UserController extends Controller implements HasMiddleware
         if ($user) {
             $mail = Mail::to($request->email)->send(new AccountCreationMail($request->all()));
             $user->syncRoles('user');
+
             return redirect()->route('user.index')->with('success', 'User Has Been Created Successfully');
         } else {
             return redirect()->route('user.index')->with('error', 'User Creation Failed');
@@ -130,6 +132,7 @@ class UserController extends Controller implements HasMiddleware
     public function show($id)
     {
         $user = User::find($id);
+
         return view('users.show', compact('user'));
     }
 
@@ -139,6 +142,7 @@ class UserController extends Controller implements HasMiddleware
 
         if ($user) {
             $user->delete();
+
             return redirect()->route('user.index')->with('delete', 'User Has Been Deleted Successfully');
         } else {
             return redirect()->route('user.index')->with('error', 'User Deletion Failed');

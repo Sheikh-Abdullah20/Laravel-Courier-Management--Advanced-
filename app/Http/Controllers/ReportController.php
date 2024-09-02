@@ -16,6 +16,7 @@ class ReportController extends Controller implements HasMiddleware
             new Middleware('permission:view reports', ['only' => 'index']),
         ];
     }
+
     public function index(Request $request)
     {
         $agents = User::with('roles')->whereHas('roles', function ($query) {
@@ -37,15 +38,15 @@ class ReportController extends Controller implements HasMiddleware
         $total_shipments = $shipments->count();
 
         if ($request->has('download')) {
-            $filename = 'Report_' . time() . '.csv';
+            $filename = 'Report_'.time().'.csv';
 
             $headers = [
                 'Content-Type' => 'text/csv',
-                'Content-Dissposition' => 'attachments, filename="' . $filename . '"',
+                'Content-Dissposition' => 'attachments, filename="'.$filename.'"',
             ];
 
             $generate = function () use ($shipments) {
-                $file = fopen("php://output", 'w');
+                $file = fopen('php://output', 'w');
 
                 fputcsv($file, [
                     'Tracking Number', 'Agent Name', 'Agent Branch', 'Agent City', 'Shipping Date', 'Sender Name', 'Receiver Name', 'Sender Phone', 'Receiver Phone', 'Pickup Address', 'Deliver Address', 'Return Address', 'City', 'Approval Status', 'Shipment Status', 'Package Type', 'Payment Method', 'Amount',
@@ -76,8 +77,10 @@ class ReportController extends Controller implements HasMiddleware
                 }
                 fclose($file);
             };
+
             return response()->stream($generate, 200, $headers);
         }
+
         return view('reports.index', compact('agents', 'shipments', 'date', 'city', 'total_shipments'));
     }
 }

@@ -20,6 +20,7 @@ class GuestController extends Controller
     {
         $trackSearch = $request->track;
         $shipment = Shipment::where('tracking_number', $trackSearch)->first();
+
         return view('guests.tracking', compact('shipment', 'trackSearch'));
     }
 

@@ -18,14 +18,17 @@ class StatusController extends Controller implements HasMiddleware
             new Middleware('permission:delete status', ['only' => 'destroy']),
         ];
     }
+
     public function index(Request $request)
     {
         if ($request->filled('selected')) {
             $selectedId = $request->selected;
             Status::whereIn('id', $selectedId)->delete();
+
             return redirect()->back()->with('delete', 'Selected Status Has Been Deleted Successfully');
         }
         $statuss = Status::paginate(10);
+
         return view('status.index', compact('statuss'));
     }
 
@@ -53,6 +56,7 @@ class StatusController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $status = Status::find($id);
+
         return view('status.edit', compact('status'));
     }
 

@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -14,13 +13,14 @@ class shipmentCreationMail extends Mailable
     use Queueable, SerializesModels;
 
     public $request;
+
     public $shipment;
-    public function __construct($request,$shipment)
+
+    public function __construct($request, $shipment)
     {
         $this->request = $request;
         $this->shipment = $shipment;
     }
-
 
     public function envelope(): Envelope
     {

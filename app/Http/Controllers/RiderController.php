@@ -25,10 +25,12 @@ class RiderController extends Controller implements HasMiddleware
         if ($request->filled('selected')) {
             $selectedId = $request->selected;
             Rider::whereIn('id', $selectedId)->delete();
+
             return redirect()->route('rider.index')->with('delete', 'Selected riders deleted successfully');
         }
 
         $riders = Rider::paginate(10);
+
         return view('riders.index', compact('riders'));
     }
 
@@ -71,6 +73,7 @@ class RiderController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $rider = Rider::find($id);
+
         return view('riders.edit', compact('rider'));
     }
 
