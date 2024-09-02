@@ -91,31 +91,31 @@
                                         <td>
                                             @if($status->status_name === 'Pending')
                                     
-                                          <div class="card d-flex align-items-center  ">
+                                          <div class="card w-50 m-auto d-flex align-items-center  ">
                                             <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-hourglass_empty"></i> {{ $status->status_name }}</p>
                                           </div>
         
                                             @elseif($status->status_name === 'Approved')
-                                            <div class="card d-flex align-items-center  ">
+                                            <div class="card w-50 m-auto d-flex align-items-center  ">
                                                 <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-thumb_up mx-2 "></i> {{ $status->status_name }}</p>
                                               </div>
                                               
                                               @elseif($status->status_name === 'On the way')
-                                              <div class="card d-flex align-items-center  ">
+                                              <div class="card w-50 m-auto d-flex align-items-center  ">
                                                   <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-local_shipping mx-2"></i> {{ $status->status_name }}</p>
                                                 </div>
                                                 
                                                 @elseif($status->status_name === 'Delivered')
-                                                <div class="card d-flex align-items-center  ">
+                                                <div class="card w-50 m-auto d-flex align-items-center  ">
                                                     <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-check_circle mx-2"></i> {{ $status->status_name }}</p>
                                                   </div>
                                             @else
-                                            <p class="bg-secondary p-2"> {{ $status->status_name }}</p>
+                                            <p class="bg-secondary w-50 m-auto p-2"> {{ $status->status_name }}</p>
                                             @endif
         
                                         </td>
                                         <td>
-                                          <p class="bg-secondary p-3 w-25 m-auto rounded text-light"> {{ $statusCount[$status->status_name] ?? 0 }}</p>
+                                          <p class=" p-3 w-50 m-auto rounded card"> {{ $statusCount[$status->status_name] ?? 0 }}</p>
                                         </td>
         
                                     </tr>

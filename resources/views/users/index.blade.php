@@ -95,7 +95,7 @@
                                         <td>
                                             <div class="row justify-content-center">
                                                 @can('show users')
-                                                    <div class="col-md-2 mx-2 my-2">
+                                                    <div class="col-md-2 my-2">
                                                         <a href="{{ route('user.show', $user) }}" class="btn btn-sm btn-info"><i
                                                                 class="icon material-icons md-visibility"></i></a>
                                                     </div>
@@ -109,7 +109,7 @@
                                                 @endcan
                                     </form>
                                     @can('delete users')
-                                        <div class="col-md-2 mx-2  my-2">
+                                        <div class="col-md-2  my-2">
                                             <form action="{{ route('user.destroy', $user) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')

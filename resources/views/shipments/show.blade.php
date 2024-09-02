@@ -30,6 +30,7 @@
             <div class="section-1">
                 <h3>Receiver Information</h3>
                 <p><strong>Name: </strong> {{ $shipment->receiver_name }} </p>
+                <p><strong>Email: </strong> {{ $shipment->receiver_email }} </p>
                 <p><strong>Contact: </strong> {{ $shipment->receiver_phone }} </p>
                 <p><strong>Delivery Address:</strong> {{ $shipment->delivery_address }} </p>
 
@@ -37,6 +38,7 @@
                     <br>
                     <h3>Sender Information</h3>
                     <p><strong>Name: </strong> {{ $shipment->sender_name }} </p>
+                    <p><strong>Email: </strong> {{ $shipment->sender_email }} </p>
                     <p><strong>Contact: </strong> {{ $shipment->sender_phone }} </p>
                     <p><strong>Pickup Address: </strong> {{ $shipment->pickup_address }} </p>
                     <p><strong>Return Address: </strong> {{ $shipment->return_address }} </p>

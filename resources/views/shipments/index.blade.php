@@ -9,7 +9,7 @@ Shipments - View
 <section class="content-main">
     <div class="content-header justify-content-end">
 
-        @can('create shipments')    
+        @can('create shipments')
         <div>
             <a href="{{ route('shipment.create') }}" class="btn btn-dark">Create Shipment</a>
         </div>
@@ -56,7 +56,8 @@ Shipments - View
                                                 @if(auth()->user()->hasPermissionTo('print') ||
                                                 auth()->user()->hasRole('admin'))
                                                 <td>
-                                                 <input type="radio" value="{{ $rider->id }}" name="rider" id="rider">
+                                                    <input type="radio" value="{{ $rider->id }}" name="rider"
+                                                        id="rider">
                                                 </td>
                                                 @endif
                                                 <td>{{ $count }}</td>
@@ -75,14 +76,17 @@ Shipments - View
                         </div>
                     </div>
                     @endcan
-                    
-                <div>
-                    <h2 class="content-title my-5">Shipments - View</h2>
-                </div>  
+
+                    <div>
+                        <h2 class="content-title my-5">Shipments - View</h2>
+                    </div>
                     <div class="row my-5">
                         <div class="col-md-12">
-                            <form action="{{ route('shipment.index') }}" method="GET" class="d-flex w-50 m-auto">
+                            <form action="{{ route('shipment.index') }}" method="GET" class="d-flex w-75 m-auto">
                                 @csrf
+
+                                <input type="search" class="form-control " placeholder="Tracking Number"
+                                    name="search_tracking_number">
 
                                 @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
                                 <select name="agents" id="agents" class="form-select mx-3">
@@ -94,7 +98,7 @@ Shipments - View
                                 </select>
                                 @endif
 
-                                <select name="status" id="status" class="form-select mx-3">
+                                <select name="status" id="status" class="form-select mx-2">
                                     <option value="" hidden>Choose Status</option>
                                     @foreach ($statuss as $status )
                                     <option value="{{ $status->status_name }}">{{ $status->status_name }}</option>
@@ -144,7 +148,7 @@ Shipments - View
                                         @elseif(auth()->user()->hasRole('admin'))
                                         <th>Select</th>
                                         @endif
-                                      
+
                                         <th>Order Tracking</th>
                                         <th>Agent</th>
                                         <th>Sender Name</th>
@@ -155,14 +159,18 @@ Shipments - View
                                         <th>Status</th>
                                         @endif
                                         <th>Shipment_Status</th>
+                                        @if(auth()->user()->hasRole('user'))
+                                        <th>Amount</th>
+                                        @endif
                                         @if(auth()->user()->hasPermissionTo('edit shipments') ||
                                         auth()->user()->hasPermissionTo('show shipments'))
                                         <th>Actions</th>
-                                        @elseif(auth()->user()->hasPermissionTo('delete shipments') || auth()->user()->hasRole('admin'))
+                                        @elseif(auth()->user()->hasPermissionTo('delete shipments') ||
+                                        auth()->user()->hasRole('admin'))
                                         <th>Actions</th>
                                         @endif
                                     </tr>
-                                </thead>     
+                                </thead>
                                 <tbody>
                                     @foreach($shipments as $shipment)
                                     <tr>
@@ -175,85 +183,87 @@ Shipments - View
                                         <td>
                                             <input type="checkbox" name="selected[]" value="{{ $shipment->id }}">
                                         </td>
-                                    </form>
-                                    @endif
-                                    <td>{{ $shipment->tracking_number }}</td>
-                                    <td>{{ $shipment->agent_name }}</td>
-                                    <td>{{ $shipment->sender_name }}</td>
-                                    <td>{{ $shipment->receiver_name }}</td>
-                                    <td>{{ $shipment->order_number }}</td>
-                                    <td>{{ $shipment->shipping_date }}</td>
-                                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
-                                    @if($shipment->status === 'Approved')
-                                    <td><span class="bg-success p-1 text-light ">{{ $shipment->status }}</span>
-                                    @elseif($shipment->status === 'Pending')
-                                    <td><span class="bg-danger p-1 text-light ">{{ $shipment->status }}</span>
-                                    @endif
-                                    @endif
+                    </form>
+                    @endif
+                    <td>{{ $shipment->tracking_number }}</td>
+                    <td>{{ $shipment->agent_name }}</td>
+                    <td>{{ $shipment->sender_name }}</td>
+                    <td>{{ $shipment->receiver_name }}</td>
+                    <td>{{ $shipment->order_number }}</td>
+                    <td>{{ $shipment->shipping_date }}</td>
+                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('agent'))
+                    @if($shipment->status === 'Approved')
+                    <td><p class="bg-success p-1 rounded text-light ">{{ $shipment->status }}</p>
+                        @elseif($shipment->status === 'Pending')
+                    <td><p class="bg-danger p-1 rounded text-light ">{{ $shipment->status }}</p>
+                        @endif
+                        @endif
 
-                                    @if($shipment->status_shipment === 'Pending')
-                                    <td><span class="bg-danger p-1 text-light ">{{ $shipment->status_shipment }}</span>
-                                    </td>
-                                        @elseif($shipment->status_shipment === 'Approved')
-                                    <td><span class="bg-success p-1 rounded text-light">{{ $shipment->status_shipment }}</span>
-                                    </td>
+                        @if($shipment->status_shipment === 'Pending')
+                    <td><p class="bg-danger p-1 text-light rounded ">{{ $shipment->status_shipment }}</p>
+                    </td>
+                    @elseif($shipment->status_shipment === 'Approved')
+                    <td><p class="bg-success p-1 rounded text-light">{{ $shipment->status_shipment }}</p>
+                    </td>
 
-                                        @elseif($shipment->status_shipment === 'On the way')
-                                    <td><span class="bg-primary p-2 rounded text-light">{{ $shipment->status_shipment }}</span>
-                                    </td>
+                    @elseif($shipment->status_shipment === 'On the way')
+                    <td><p class="bg-primary p-1 rounded text-light">{{ $shipment->status_shipment }}</p>
+                    </td>
 
-                                        @elseif($shipment->status_shipment === 'Delivered')
-                                    <td><span class="bg-warning p-1 rounded text-dark">{{ $shipment->status_shipment }}</span>
-                                    </td>
-                                        @else
-                                    <td><span class="bg-secondary p-1 rounded text-light">{{ $shipment->status_shipment }}</span>
-                                    </td>
-                                        @endif
-                                        
-                                        <td>
-                                        <div class="row justify-content-center">
-                                            @can('show shipments')
-                                            <div class="col-md-2  mx-2 my-2">
-                                                <a href="{{ route('shipment.show', $shipment) }}" class="btn btn-sm btn-info"><i
-                                                        class="icon material-icons md-visibility"></i></a>
-                                            </div>
-                                            @endcan
-
-                                            @if($shipment->status === 'Approved' || auth()->user()->hasRole('admin'))
-                                            @can('edit shipments')
-                                            <div class="col-md-2  my-2">
-                                                <a href="{{ route('shipment.edit',$shipment) }}" class="btn btn-sm btn-dark"><i
-                                                        class="icon material-icons md-edit"></i></a>
-                                            </div>
-                                            @endcan
-                                            @endif
-
-                                            @can('delete shipments')
-                                            <div class="col-md-2  mx-2 my-2">
-                                                <form action="{{ route('shipment.destroy',$shipment) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Are You Sure You Want to Delete This Shipment?')"><i
-                                                            class="icon material-icons md-delete"></i></button>
-                                                </form>
-                                            </div>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                    </table>
-                                </div>
-                                @endif
+                    @elseif($shipment->status_shipment === 'Delivered')
+                    <td><p class="bg-warning p-1 rounded text-dark">{{ $shipment->status_shipment }}</p>
+                    </td>
+                    @else
+                    <td><p class="bg-secondary p-1 rounded text-light">{{ $shipment->status_shipment }}</p>
+                    </td>
+                    @endif
+                    @if(auth()->user()->hasRole('user'))
+                    <td>Rs:{{ $shipment->amount }}</td>
+                    @endif
+                    <td>
+                        <div class="row justify-content-center">
+                            @can('show shipments')
+                            <div class="col-md-2  mx-2 my-2">
+                                <a href="{{ route('shipment.show', $shipment) }}" class="btn btn-sm btn-info"><i
+                                        class="icon material-icons md-visibility"></i></a>
                             </div>
+                            @endcan
+
+                            @if($shipment->status === 'Approved' || auth()->user()->hasRole('admin'))
+                            @can('edit shipments')
+                            <div class="col-md-2  my-2">
+                                <a href="{{ route('shipment.edit',$shipment) }}" class="btn btn-sm btn-dark"><i
+                                        class="icon material-icons md-edit"></i></a>
+                            </div>
+                            @endcan
+                            @endif
+
+                            @can('delete shipments')
+                            <div class="col-md-2  mx-2 my-2">
+                                <form action="{{ route('shipment.destroy',$shipment) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are You Sure You Want to Delete This Shipment?')"><i
+                                            class="icon material-icons md-delete"></i></button>
+                                </form>
+                            </div>
+                            @endcan
                         </div>
-                    </div>
-                    </div>
-                    <div class="row">
-                        {{ $shipments->links() }}
-                    </div>
+                    </td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    </table>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        {{ $shipments->links() }}
+    </div>
 
 
 

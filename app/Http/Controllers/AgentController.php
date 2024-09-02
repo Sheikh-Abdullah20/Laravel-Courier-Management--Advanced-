@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Mail;
 
 class AgentController extends Controller implements HasMiddleware
 {
-    public static function middleware() :array{
-        return[
-            new Middleware('permission:view agents',['only' => 'index']),
-            new Middleware('permission:create agents',['only' => 'create']),
-            new Middleware('permission:edit agents',['only' => 'edit']),
-            new Middleware('permission:show agents',['only' => 'show']),
-            new Middleware('permission:delete agents',['only' => 'destroy']),
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view agents', ['only' => 'index']),
+            new Middleware('permission:create agents', ['only' => 'create']),
+            new Middleware('permission:edit agents', ['only' => 'edit']),
+            new Middleware('permission:show agents', ['only' => 'show']),
+            new Middleware('permission:delete agents', ['only' => 'destroy']),
         ];
     }
 
@@ -28,22 +29,22 @@ class AgentController extends Controller implements HasMiddleware
             $agents = User::whereIn('id', $selectedId)->delete();
             return redirect()->back()->with('delete', 'Selected Agents deleted successfully');
         }
-            $search = $request->search;   
-         $agents = User::with('roles')->whereHas('roles', function($query){
-            $query->where('name','agent');
-            
+        $search = $request->search;
+        $agents = User::with('roles')->whereHas('roles', function ($query) {
+            $query->where('name', 'agent');
+
         })
-        ->when($search, function($query, $search) {
-            return $query->where(function($query) use ($search){
-                $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
-                ->orWhere('phone','like','%'.$search . '%')
-                ->orWhere('address','like', '%' . $search . '%');
-            });
-            
-        })
-        ->paginate(10);
-        return view('agents.index', compact('agents','search'));
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%');
+                });
+
+            })
+            ->paginate(10);
+        return view('agents.index', compact('agents', 'search'));
     }
 
     public function create()
@@ -62,7 +63,7 @@ class AgentController extends Controller implements HasMiddleware
             'city' => 'required',
             'phone' => 'required',
         ]);
-       
+
         $agent = User::create([
             'name' => $request->name,
             'address' => $request->address,
@@ -71,21 +72,21 @@ class AgentController extends Controller implements HasMiddleware
             'email' => $request->email,
             'city' => $request->city,
             'password' => $request->password,
-           
+
         ]);
-        if($agent){
+        if ($agent) {
             $mail = Mail::to($request->email)->send(new AccountCreationMail($request->all()));
             $agent->syncRoles('agent');
-            return redirect()->route('agent.index')->with('success','Agent Created Succesfully');
-        }else{
-            return redirect()->route('agent.index')->with('error','Failed to Create Agent');
+            return redirect()->route('agent.index')->with('success', 'Agent Created Succesfully');
+        } else {
+            return redirect()->route('agent.index')->with('error', 'Failed to Create Agent');
         }
     }
 
     public function show(string $id)
     {
         $agent = User::find($id);
-       
+
         return view('agents.show', compact('agent'));
     }
 
@@ -127,7 +128,8 @@ class AgentController extends Controller implements HasMiddleware
 
     public function destroy(string $id)
     {
-        $agent = User::find($id); $user = User::where('email', $agent->email)->first();
+        $agent = User::find($id);
+        $user = User::where('email', $agent->email)->first();
         if ($agent) {
             if ($agent->delete()) {
                 return redirect()->route('agent.index')->with('delete', 'Agent deleted successfully');

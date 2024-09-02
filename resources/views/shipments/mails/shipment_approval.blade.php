@@ -8,15 +8,12 @@
   </head>
   <body>
 
-    <h2>Shipment Has Been Created</h2>
-    <br>
-    <h4>Shipment Created By: {{ $shipment->agent_name }}</h4>
+    <h2>Shipment Has Been Approved</h2>
+    <p>Now You Can Perform Actions in The Shipments And Track All Your Shipments</p>
     <hr>
     <p>Sender Name: <b>{{ $request['sender_name'] }}</b></p>
     <p>Receiver Name: <b>{{ $request['receiver_name'] }}</b></p>
     <hr>
-    <p>Please View The Shipment</p>
-    <br>
     <p>This Package Will Be Deliver To {{ $request['receiver_name'] }}</p>
     <br>
     <p>Pickup Address: <b> {{ $request['pickup_address'] }} </b></p>
@@ -27,8 +24,8 @@
     <br>
     <p>Tracking Number: {{ $shipment['tracking_number'] }}</p>
     <br>
-    <h2> Approve Shipment Here... </h2>
-    <a href="{{ route('shipment.index') }}">Admin Shipments</a>
+    <h2>Track  Shipments</h2>
+    <a href="{{ route('guest.track-shipment') }}">Shipment Tracking</a>
 
 </body>
 <script src="{{ asset('assets/js/vendors/bootstrap.bundle.min.js') }}"></script>

@@ -42,22 +42,24 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-   public function accountDelete(){
-    return view('profile.partials.account-delete');
-   }
-
-   public function destroy(Request $request){
-    // return $request->password;
-    $request->validate([
-        'password' => 'required|current_password'
-    ]);
-    $user = Auth::user();
-    if(Hash::check($request->password,$user->password)){
-        $delete = User::where('id',$user->id)->first();
-        $delete->delete();
-        return redirect()->route('login')->with('delete','Your Account Has Been Deleted');
-    }else{
-        return redirect()->back()->with('error','Something Went Wrong');
+    public function accountDelete()
+    {
+        return view('profile.partials.account-delete');
     }
-   }
+
+    public function destroy(Request $request)
+    {
+        // return $request->password;
+        $request->validate([
+            'password' => 'required|current_password',
+        ]);
+        $user = Auth::user();
+        if (Hash::check($request->password, $user->password)) {
+            $delete = User::where('id', $user->id)->first();
+            $delete->delete();
+            return redirect()->route('login')->with('delete', 'Your Account Has Been Deleted');
+        } else {
+            return redirect()->back()->with('error', 'Something Went Wrong');
+        }
+    }
 }

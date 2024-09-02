@@ -8,48 +8,48 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
 {
 
-    public static function middleware() :array{
-        return[
-            new Middleware('permission:view users',['only' =>'index']),
-            new Middleware('permission:create users',['only' =>'create']),
-            new Middleware('permission:edit users',['only' =>'edit']),
-            new Middleware('permission:show users',['only' =>'show']),
-            new Middleware('permission:delete users',['only' =>'destroy']),
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view users', ['only' => 'index']),
+            new Middleware('permission:create users', ['only' => 'create']),
+            new Middleware('permission:edit users', ['only' => 'edit']),
+            new Middleware('permission:show users', ['only' => 'show']),
+            new Middleware('permission:delete users', ['only' => 'destroy']),
         ];
     }
     public function index(Request $request)
     {
-        if($request->filled('selected')){
-            $selectedId = $request->selected;        
-            $users = User::whereIn('id',$selectedId)->delete();            
-           if($users){
-            return redirect()->back()->with('delete','Selected Users Has Been Deleted Successfully');
-           }else{
-            return redirect()->back()->with('error','Something Went Wrong');
-           }
+        if ($request->filled('selected')) {
+            $selectedId = $request->selected;
+            $users = User::whereIn('id', $selectedId)->delete();
+            if ($users) {
+                return redirect()->back()->with('delete', 'Selected Users Has Been Deleted Successfully');
+            } else {
+                return redirect()->back()->with('error', 'Something Went Wrong');
+            }
         }
-        $search =  $request->search;
-        $users = User::with('roles')->whereHas('roles', function($query){
-            $query->where('name','user');
-            
+        $search = $request->search;
+        $users = User::with('roles')->whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+
         })
-        ->when($search, function($query, $search) {
-            return $query->where(function($query) use ($search){
-                $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
-                ->orWhere('phone','like','%'.$search . '%'); 
-            });
-           
-        })
-        ->paginate(10);
-        return view('users.index', compact('users','search'));
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%');
+                });
+
+            })
+            ->paginate(10);
+        return view('users.index', compact('users', 'search'));
     }
 
     public function create()
@@ -71,13 +71,13 @@ class UserController extends Controller implements HasMiddleware
         ]);
         // return $validatedData;
         $user = User::create([
-                'name' =>$request->name,
-                'email' =>$request->email,
-                'password' =>$request->password,
-                'address' =>$request->address,
-                'dob' =>$request->dob,
-                'phone' =>$request->phone,
-                'city' =>$request->city,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'address' => $request->address,
+            'dob' => $request->dob,
+            'phone' => $request->phone,
+            'city' => $request->city,
         ]);
 
         if ($user) {
@@ -90,13 +90,13 @@ class UserController extends Controller implements HasMiddleware
     }
 
     public function edit(string $id)
-    {   
+    {
         $user = User::find($id);
-        $agent = Agent::where('email',$user->email)->first();
+        $agent = Agent::where('email', $user->email)->first();
         $roles = Role::all();
         $hasRole = $user->roles->pluck('name');
-     
-        return view('users.edit', compact('user', 'roles','agent','hasRole'));
+
+        return view('users.edit', compact('user', 'roles', 'agent', 'hasRole'));
     }
 
     public function update(Request $request, string $id)
@@ -111,15 +111,15 @@ class UserController extends Controller implements HasMiddleware
         $user = User::find($id);
         if ($user) {
             $updated = $user->update([
-                'name' =>$request->name,
-                'email' =>$request->email,
-                'address' =>$request->address,
-                'dob' =>$request->dob,
-                'phone' =>$request->phone,
-                'city' =>$request->city,
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'dob' => $request->dob,
+                'phone' => $request->phone,
+                'city' => $request->city,
             ]);
-           
-            if ($updated) {               
+
+            if ($updated) {
                 return redirect()->route('user.index')->with('success', 'User Has Been Updated Successfully');
             } else {
                 return redirect()->route('user.index')->with('error', 'User Updating Failed');
@@ -127,7 +127,8 @@ class UserController extends Controller implements HasMiddleware
         }
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $user = User::find($id);
         return view('users.show', compact('user'));
     }
@@ -135,7 +136,7 @@ class UserController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         $user = User::find($id);
-    
+
         if ($user) {
             $user->delete();
             return redirect()->route('user.index')->with('delete', 'User Has Been Deleted Successfully');
