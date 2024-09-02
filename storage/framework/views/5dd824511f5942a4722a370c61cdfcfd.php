@@ -1,0 +1,1 @@
+<img src="<?php echo e(asset('assets/imgs/guest-imgs/logo.png')); ?>" alt="" style="width: 8rem; border-radius: 2rem;mix-blend-mode:multiply "><?php /**PATH D:\ABDULLAH WORK\ABDULLAH ( ME)\All Projects And Portfolio\Laravel Portfolio Projects\Laravel-Courier-Management (Advanced)\resources\views/components/application-logo.blade.php ENDPATH**/ ?>
