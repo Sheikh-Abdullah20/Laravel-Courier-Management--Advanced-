@@ -123,11 +123,10 @@ class ShipmentController extends Controller implements HasMiddleware
             $shipments = Shipment::query();
             if ($statusSearch) {
                 $shipments->where('status_shipment', $statusSearch);
-            } elseif ($search_tracking_number) {    
+            } 
+            if ($search_tracking_number) {    
                 $shipments->where('tracking_number', $search_tracking_number);
-            } elseif ($statusSearch && $search_tracking_number) {
-                $shipments->where('status_shipment', $statusSearch)->where('tracking_number', $search_tracking_number);
-            }
+            } 
             $shipments = $shipments->where('receiver_email', Auth::user()->email)->paginate(10);
 
             return view('shipments.index', compact('shipments', 'statuss'));
