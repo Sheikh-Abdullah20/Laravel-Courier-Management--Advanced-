@@ -27,7 +27,7 @@ Roles - View
                     @can('delete roles')
                     <div class="row">
                         <div class="col-md-12 d-flex  justify-content-end">
-                            <a id="submit_button"  class="btn btn-danger"><i class="icon material-icons md-delete"></i></a>
+                            <a id="submit_button"  class="btn btn-danger mx-1"><i class="icon material-icons md-delete"></i>Delete Roles</a>
                         </div>
                     </div>
                     @endcan

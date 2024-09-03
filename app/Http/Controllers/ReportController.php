@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shipment;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -23,18 +24,33 @@ class ReportController extends Controller implements HasMiddleware
             $query->where('name', 'agent');
         })->distinct('city')->get(['city']);
 
-        $date = $request->date;
+        $from = $request->from;
+        $to = $request->to;
         $city = $request->city;
-
+        $current_year = Carbon::now()->year;
+        $current_month = Carbon::now()->month;
         $shipments = Shipment::query();
-        if ($date && $city) {
-            $shipments->where('shipping_date', $date)->where('city', $city);
-        } elseif ($date) {
-            $shipments->where('shipping_date', $date);
-        } elseif ($city) {
-            $shipments->where('city', $city);
+     
+        if (empty($from) && empty($to)){
+            $shipments->whereMonth('shipping_date',$current_month)
+                      ->whereYear('shipping_date',$current_year);
+        }
+
+        if ($from && $to){
+            $shipments->whereBetween('shipping_date',[$from,$to]);
+        }else{
+            if ($from){
+                $shipments->where('shipping_date',$from);
+            }if ($to){
+                $shipments->where('shipping_date',$to);
+            }
+        }
+        if($city){
+            $shipments->where('city',$city);
         }
         $shipments = $shipments->paginate(10);
+        // return $shipments;
+
         $total_shipments = $shipments->count();
 
         if ($request->has('download')) {
@@ -81,6 +97,6 @@ class ReportController extends Controller implements HasMiddleware
             return response()->stream($generate, 200, $headers);
         }
 
-        return view('reports.index', compact('agents', 'shipments', 'date', 'city', 'total_shipments'));
+        return view('reports.index', compact('agents', 'shipments','from','to', 'city', 'total_shipments'));
     }
 }

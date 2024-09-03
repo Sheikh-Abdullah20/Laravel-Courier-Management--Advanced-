@@ -8,6 +8,7 @@ use App\Mail\onTheWayShipmentMail;
 use App\Mail\shipmentapprovalMail;
 use App\Mail\shipmentCreationMail;
 use App\Models\Rider;
+use App\Models\RiderAssignedShipment;
 use App\Models\Shipment;
 use App\Models\Status;
 use App\Models\User;
@@ -32,6 +33,7 @@ class ShipmentController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
+        
         $action = $request->action;
         if ($action === 'delete') {
             $selectedIds = $request->selected;
@@ -43,9 +45,19 @@ class ShipmentController extends Controller implements HasMiddleware
             }
         } elseif ($action === 'print') {
             $selectedIds = $request->selected;
-            $rider = $request->rider_id;
+            $rider = $request->rider;
             $findRider = Rider::find($rider);
             $shipments = Shipment::whereIn('id', $selectedIds)->get();
+
+            if($findRider && $shipments){
+                foreach($shipments as $shipment){
+                    $assignShipmentsToRider = RiderAssignedShipment::create([
+                        'shipment_id' => $shipment->id,
+                        'rider_id' => $findRider->id,
+                    ]);
+                }
+               
+            }
 
             return view('shipments.print', compact('selectedIds', 'shipments', 'findRider'));
 
@@ -79,7 +91,7 @@ class ShipmentController extends Controller implements HasMiddleware
             if ($search_tracking_number) {
                 $shipments->where('tracking_number', $search_tracking_number);
             }
-            $shipments = $shipments->paginate(10);
+            $shipments = $shipments->paginate(30);
 
             return view('shipments.index', compact('shipments', 'statuss', 'agents', 'riders'));
 
@@ -107,7 +119,7 @@ class ShipmentController extends Controller implements HasMiddleware
             if ($search_tracking_number) {
                 $shipments->where('tracking_number', $search_tracking_number);
             }
-            $shipments = $shipments->where('user_id', Auth::user()->id)->paginate(10);
+            $shipments = $shipments->where('user_id', Auth::user()->id)->paginate(30);
 
             $riders = Rider::all();
 
@@ -130,7 +142,7 @@ class ShipmentController extends Controller implements HasMiddleware
             if ($search_tracking_number) {
                 $shipments->where('tracking_number', $search_tracking_number);
             }
-            $shipments = $shipments->where('receiver_email', Auth::user()->email)->paginate(10);
+            $shipments = $shipments->where('receiver_email', Auth::user()->email)->paginate(30);
 
             return view('shipments.index', compact('shipments', 'statuss'));
         }
@@ -230,9 +242,7 @@ class ShipmentController extends Controller implements HasMiddleware
             if (Auth::user()->city !== $request->city) {
                 return redirect()->back()->with('error', 'You cannot create Other Cities shipment');
             }
-            $agent_id = $request->agent_name;
-            $user = User::find($agent_id);
-
+          
             $request->validate([
                 'shipping_date' => 'required',
                 'sender_name' => 'required',
@@ -258,7 +268,7 @@ class ShipmentController extends Controller implements HasMiddleware
             $tracking_number = mt_rand(1111111111, 9999999999);
             $order_number = mt_rand(111111, 222222);
             $shipment = Shipment::create([
-                'agent_name' => $user->name,
+                'agent_name' => Auth::user()->name,
                 'shipping_date' => $request->shipping_date,
                 'sender_name' => $request->sender_name,
                 'receiver_name' => $request->receiver_name,
@@ -281,7 +291,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 'description' => $request->description,
                 'order_number' => $order_number,
                 'tracking_number' => $tracking_number,
-                'user_id' => $user->id,
+                'user_id' => Auth::user()->id,
             ]);
 
             if ($shipment) {
@@ -314,6 +324,7 @@ class ShipmentController extends Controller implements HasMiddleware
         }
         $hasAgent = $shipment->agent_name;
         $hasStatus = $shipment->status_shipment;
+        // return $hasStatus;
         $statuss = Status::all();
 
         // return $hasAgent;
@@ -383,7 +394,7 @@ class ShipmentController extends Controller implements HasMiddleware
                 }
                 $sender_email = $shipment->sender_email;
                 $receiver_email = $shipment->receiver_email;
-                if ($request->status_shipment === 'Approved') {
+                if ($request->status_shipment === 'Order Initiated') {
                     $mail = Mail::to([$sender_email, $receiver_email])->send(new approvedShipmentMail($request->all(), $shipment));
                 } elseif ($shipment->status_shipment === 'On the way') {
                     $mail = Mail::to([$sender_email, $receiver_email])->send(new onTheWayShipmentMail($request->all(), $shipment));

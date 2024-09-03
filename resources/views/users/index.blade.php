@@ -35,11 +35,11 @@
                             <div class="col-md-6  d-flex justify-content-end">
                                 @can('delete users')
                                     <button type="button" onclick="submit_form() " class="btn btn-danger mx-2"><i
-                                            class="icon material-icons md-delete"></i></button>
+                                            class="icon material-icons md-delete mx-1"></i>Delete Users</button>
                                 @endcan
                                 @can('download reports')
-                                    <a href="{{ route('download_user_report') }}" class="btn btn-secondary"><i
-                                        class="icon material-icons md-get_app"></i></a>
+                                    <a href="{{ route('download_user_report') }}" class="btn btn-dark"><i
+                                        class="icon material-icons md-get_app mx-1"></i>Download Users Report</a>
                                 @endcan
                             </div>
                         </div>

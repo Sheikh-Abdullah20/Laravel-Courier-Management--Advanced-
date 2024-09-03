@@ -37,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/rider', RiderController::class);
     // Resource Controllers End
 
+    // Assigned Shipment Rider Route Start
+    Route::get('/assigned_shipments/rider/{id}',[RiderController::class, 'assignedShipment_riders'])->name('assignedShipment_riders');
+    // Assigned Shipment Rider Route End
+
     // Reports Route
     Route::get('/reports', [ReportController::class, 'index'])->name('report.index');
     // Reports Route

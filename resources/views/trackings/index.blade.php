@@ -14,7 +14,7 @@ Shipment - Tracking
         </div>
     </div>
 
-    <div class="card">
+    <div class="card p-3">
         <div class="card-body">
             <form action="{{ route('tracking.index') }}" method="GET">
                 @csrf
@@ -70,10 +70,7 @@ Shipment - Tracking
                     @elseif($shipment->status_shipment === 'On the way')
                     <p>Current Status: <span class="bg-primary p-2 rounded text-light"><b>{{ $shipment->status_shipment
                                 }}</b></span></p>
-                    @elseif($shipment->status_shipment === 'Pending')
-                    <p>Current Status: <span class="bg-danger p-2 rounded text-light"><b>{{ $shipment->status_shipment
-                                }}</b></span></p>
-                    @elseif($shipment->status_shipment === 'Approved')
+                    @elseif($shipment->status_shipment === 'Order Initiated')
                     <p>Current Status: <span class="bg-success p-2 rounded text-light"><b>{{ $shipment->status_shipment
                                 }}</b></span></p>
                     @else
@@ -90,27 +87,23 @@ Shipment - Tracking
 
             <div class="row">
                 <div class="col-md-12">
-                    @if($shipment->status_shipment === 'Pending')
+                   
+                    @if($shipment->status_shipment === 'Order Initiated')
                     <div class="progress no-print" role="progressbar" aria-label="Basic example" aria-valuenow="0"
                         aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-danger" style="width: 10%"></div>
-                    </div>
-                    @elseif($shipment->status_shipment === 'Approved')
-                    <div class="progress no-print" role="progressbar" aria-label="Basic example" aria-valuenow="0"
-                        aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 30%"></div>
+                        <div class="progress-bar text-dark" style="width: 30%">Order Initiated</div>
                     </div>
 
                     @elseif($shipment->status_shipment === 'On the way')
                     <div class="progress no-print" role="progressbar" aria-label="Basic example" aria-valuenow="0"
                         aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-primary" style="width: 70%"></div>
+                        <div class="progress-bar bg-primary" style="width: 70%">On The Way</div>
                     </div>
 
                     @elseif($shipment->status_shipment === 'Delivered')
                     <div class="progress no-print" role="progressbar" aria-label="Basic example" aria-valuenow="0"
                         aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-warning" style="width: 100%"></div>
+                        <div class="progress-bar bg-warning text-dark" style="width: 100%">Delivered</div>
                     </div>
 
                     @endif

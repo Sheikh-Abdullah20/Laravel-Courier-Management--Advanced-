@@ -164,10 +164,10 @@ Shipment - Create
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="city">City*</label>
-                                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" list="city-list">
-                                    <datalist  id="city-list">
-                                        <option value="{{ $city }}">{{ $city }}</option>
-                                    </datalist>
+                                   <select  id="city" name="city" class="form-select">
+                                    <option value="" hidden >Select City</option>
+                                    <option value="{{ $city }}" >{{ $city }}</option>
+                                   </select>
                                     @error('city')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror

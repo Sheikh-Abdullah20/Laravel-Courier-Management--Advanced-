@@ -23,10 +23,10 @@ class AdminController extends Controller
                 $query->where('name', 'agent');
             })->get();
 
-            $statuss = Status::all();
+            $statuss = Status::all(); 
+        
             $shipments = Shipment::all();
             $statusCount = $shipments->countBy('status_shipment');
-
             $riders = Rider::all();
 
             return view('index', compact('agents', 'shipments', 'users', 'riders', 'statuss', 'statusCount'));

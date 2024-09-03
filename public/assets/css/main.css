@@ -996,8 +996,8 @@ textarea.form-control {
 
 .card {
   margin-bottom: 24px;
-  box-shadow: none;
-  border: 1px solid #eee;
+  box-shadow: 5px 5px 30px rgba(87, 119, 195, 0.397);;
+  border: 0.5px solid #bbbbbb;
   border-radius: 10px;
   transition-duration: 0.3s;
   overflow: hidden;

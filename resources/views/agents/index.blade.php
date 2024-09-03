@@ -33,11 +33,11 @@ Agents - View
                         </div>
                         <div class="col-md-6 d-flex justify-content-end">
                             @can('delete agents')
-                            <button class="btn btn-danger mx-2" type="button" onclick="select()"><i class="icon material-icons md-delete"></i></button>
+                            <button class="btn btn-danger mx-2" type="button" onclick="select()"><i class="icon material-icons md-delete mx-1"></i>Delete Agents</button>
                             @endcan
                             @can('download reports')
-                            <a href="{{ route('download_agent_report') }}" class="btn btn-secondary"><i
-                                class="icon material-icons md-get_app"></i></a>
+                            <a href="{{ route('download_agent_report') }}" class="btn btn-dark"><i
+                                class="icon material-icons md-get_app mx-1"></i>Download Agents Report</a>
                                 @endcan
                         </div>
                     </div>

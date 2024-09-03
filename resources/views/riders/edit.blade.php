@@ -29,6 +29,15 @@ Rider - Edit
                     </div>
 
                     <div class="mb-3">
+                        <label for="name">Rider City</label>
+                        <input type="text" class="form-control" name="city" id="city" value="{{ $rider->rider_city }}">
+                        @error('city')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+
+                    <div class="mb-3">
                         <label for="phone">Rider Phone</label>
                         <input type="text" class="form-control" name="phone" id="phone" value="{{ $rider->phone }}">
                         @error('phone')

@@ -13,20 +13,30 @@ Reports
     </div>
     <hr>
     <div class="row">
-       @if($shipments->isNotEmpty() && !empty($date) || !empty($city))
-        <div class="col-md-4">
+      
+        <div class="col-md-4 d-flex justify-content-between">
         <form action="{{ route('report.index') }}" method="GET">
-            <input type="hidden" value="{{ $date }}" name="date">
+            <input type="hidden" value="{{ $from }}" name="from">
+            <input type="hidden" value="{{ $to }}" name="to">
             <input type="hidden" value="{{ $city }}" name="city">
             <button type="submit" class="btn btn-dark" name="download">Download Report<i
                 class="icon material-icons md-get_app"></i></button>
         </form>
         </div>
 
-    @endif
+
     <div class="col-md-8 ">
         <form action="{{ route('report.index') }}" method="GET" class="d-flex justify-content-end mb-4">
-        <input type="date" class="form-control w-25 mx-2" name="date">
+          
+
+        <label for="from" class="form-label my-2">From</label>
+        <input type="date" class="form-control mx-2" name="from" id="from">
+
+    
+        <label for="to" class="form-label my-2">To</label>
+        <input type="date" class="form-control mx-2" name="to" id="to">
+
+       
             <select class="form-select w-25" name="city">
                 <option value="" hidden>Select City</option>
                 @foreach($agents as $agent)
@@ -39,20 +49,7 @@ Reports
     </div>
    </div>
 
-   @if(empty($date) && empty($city))
-   <div class="row">
-    <div class="col-md-12">
-        <div class="alert alert-primary"> Search Shipments Report</div>
-    </div>
-   </div>
-   @elseif($shipments->isEmpty())
-   <div class="row">
-    <div class="col-md-12">
-        <div class="alert alert-primary">No Shipment Found {{ $date ? ' Date: ' .  $date : '' }} <br> {{ $city ? ' City : ' . $city : '' }} </div>
-    </div>
-   </div>
-   
-   @else
+  
    <div class="row">
     <div class="col-md-12 d-flex justify-content-end ">
         <p>Total Shipments Found: <b>{{ $total_shipments }}</b> </p>
@@ -97,9 +94,8 @@ Reports
                                 @endif
                             </td>
                             <td>
-                                @if($shipment->status_shipment === 'Pending')
-                                <p class="bg-danger p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
-                                @elseif($shipment->status_shipment === 'Approved')
+                                
+                                @if($shipment->status_shipment === 'Order Initiated')
                                 <p class="bg-success p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'On the way')
                                 <p class="bg-primary p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
@@ -121,6 +117,6 @@ Reports
             {{ $shipments->links() }}
         </div>
     </div>
-    @endif
+  
 </section>
 @endsection

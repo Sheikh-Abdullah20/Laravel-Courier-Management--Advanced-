@@ -27,6 +27,15 @@ Rider - Create
                         @enderror
                     </div>
 
+                    
+                    <div class="mb-3">
+                        <label for="city">Rider City</label>
+                        <input type="text" class="form-control" name="city" id="city" value="{{ old('city') }}">
+                        @error('city')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <div class="mb-3">
                         <label for="phone">Rider Phone</label>
                         <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">

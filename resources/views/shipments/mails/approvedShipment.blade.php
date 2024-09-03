@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shipment Approved Mail</title>
+    <title>Shipment Initiated Mail</title>
     <link rel="stylesheet" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
   </head>
   <body>
     <p>Sender Name: <b>{{ $request['sender_name'] }}</b></p>
     <p>Receiver Name: <b>{{ $request['receiver_name'] }}</b></p>
     <hr>
-    <p>Your Shipment Has Been Approved</p>
+    <p>Your Shipment Has Been Initiated</p>
     <br>
     <p>This Package Will Be Deliver To {{ $request['receiver_name'] }}</p>
     <br>

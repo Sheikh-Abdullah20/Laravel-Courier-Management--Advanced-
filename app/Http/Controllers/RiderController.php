@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rider;
+use App\Models\RiderAssignedShipment;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -43,6 +45,7 @@ class RiderController extends Controller implements HasMiddleware
     {
         $request->validate([
             'name' => 'required',
+            'city' => 'required',
             'phone' => 'required',
             'cnic' => 'required|numeric',
             'bike_no' => 'required|numeric',
@@ -51,6 +54,7 @@ class RiderController extends Controller implements HasMiddleware
         $rider = Rider::create([
             'name' => $request->name,
             'phone' => $request->phone,
+            'rider_city' => $request->city,
             'rider_cnic' => $request->cnic,
             'bike_no' => $request->bike_no,
             'address' => $request->address,
@@ -81,6 +85,7 @@ class RiderController extends Controller implements HasMiddleware
     {
         $request->validate([
             'name' => 'required',
+            'city' => 'required',
             'phone' => 'required',
             'cnic' => 'required|numeric',
             'bike_no' => 'required|numeric',
@@ -90,6 +95,7 @@ class RiderController extends Controller implements HasMiddleware
         if ($rider) {
             $updated = $rider->update([
                 'name' => $request->name,
+                'rider_city' => $request->city,
                 'phone' => $request->phone,
                 'rider_cnic' => $request->cnic,
                 'bike_no' => $request->bike_no,
@@ -117,5 +123,24 @@ class RiderController extends Controller implements HasMiddleware
         } else {
             return redirect()->route('rider.index')->with('error', 'Rider not found');
         }
+    }
+
+
+    public function assignedShipment_riders($id){
+        $assignedRiderShipments = RiderAssignedShipment::where('rider_id',$id)->get();
+        $rider = Rider::find($id);
+        $shipments = collect();
+
+       foreach($assignedRiderShipments as $assginedShipment){
+        $shipment = Shipment::where('id',$assginedShipment->shipment_id)->get();
+        
+        if($shipment){
+           $shipments = $shipments->merge($shipment);
+        }
+    }
+        // return $shipments;
+
+       return view('riders.viewAssignedShipments',compact('shipments','rider'));
+
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\RiderAssignedShipment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,4 +16,11 @@ class Shipment extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function has_shipments_rider(){
+        return $this->belongsTo(RiderAssignedShipment::class,'shipment_id');
+    }
+
+    
+   
 }

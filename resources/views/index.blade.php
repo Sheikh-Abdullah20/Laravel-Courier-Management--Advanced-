@@ -70,8 +70,58 @@
         </div>
         @endif
     </div>
-    
-    <div class="row my-4">
+    {{-- <div class="row">
+        <div class="col-md-12">
+            <h2 class="content-title card-title">Shipments Status</h2>
+        </div>
+    </div> --}}
+    <hr>
+    <div class="row my-2 justify-content-center">
+
+        @foreach($statuss as $status)
+        @if($status->status_name === 'Order Initiated')
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-secondary"><i class="text-info material-icons md-thumb_up"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">{{ $status->status_name }}</h6>
+                        <span>{{ $statusCount[$status->status_name] ?? 0 }}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        @elseif($status->status_name === 'On the way')
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-dark"><i class="text-primary material-icons md-local_shipping"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">{{ $status->status_name }}</h6>
+                        <span>{{ $statusCount[$status->status_name] ?? 0 }}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        @elseif($status->status_name === 'Delivered')
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-success"><i class="text-light material-icons md-check_circle"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">{{ $status->status_name }}</h6>
+                        <span>{{ $statusCount[$status->status_name] ?? 0 }}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        @endif
+        @endforeach
+
+    </div>
+
+    {{-- <div class="row my-4">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -89,13 +139,9 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            @if($status->status_name === 'Pending')
-                                    
-                                          <div class="card w-50 m-auto d-flex align-items-center  ">
-                                            <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-hourglass_empty"></i> {{ $status->status_name }}</p>
-                                          </div>
+                                            
         
-                                            @elseif($status->status_name === 'Approved')
+                                            @if($status->status_name === 'Order Initiated')
                                             <div class="card w-50 m-auto d-flex align-items-center  ">
                                                 <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-thumb_up mx-2 "></i> {{ $status->status_name }}</p>
                                               </div>
@@ -131,7 +177,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </section>
 
 @endsection

@@ -24,13 +24,23 @@ Riders - View
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 d-flex justify-content-end">
+
+                            @can('delete riders')
+                            <form id="assignedShipment_form" method="GET">
+                                @csrf
+                                <a onclick="viewShipments() " class="btn btn-info mx-2"><i
+                                    class="icon material-icons md-visibility mx-1"></i>View Rider Assigned Shipments </a>
+                            @endcan
+                            </form>
+                           
+
                             @can('delete riders')
                                 <button type="button" onclick="submit_form() " class="btn btn-danger mx-2"><i
-                                        class="icon material-icons md-delete"></i></button>
+                                        class="icon material-icons md-delete mx-1"></i>Delete Riders </button>
                             @endcan
                             @can('download reports')
-                                <a href="{{ route('download_rider_report') }}" class="btn btn-secondary"><i
-                                    class="icon material-icons md-get_app"></i></a>
+                                <a href="{{ route('download_rider_report') }}" class="btn btn-dark"><i
+                                    class="icon material-icons md-get_app mx-1"></i>Download Riders Report</a>
                             @endcan
                         </div>
                     </div>
@@ -48,6 +58,7 @@ Riders - View
                                 @endif
                                 <th>Rider ID</th>
                                 <th>Rider Name</th>
+                                <th>Rider City</th>
                                 <th>Rider Bike_no</th>
                                 <th>Rider Phone</th>
                                 <th>Rider Address</th>
@@ -79,6 +90,7 @@ Riders - View
                                     @endif
                                     <td>{{ $count }}</td>
                                     <td>{{ $rider->name }}</td>
+                                    <td>{{ $rider->rider_city }}</td>
                                     <td>{{ $rider->bike_no }}</td>
                                     <td>{{ $rider->phone }}</td>
                                     <td>{{ $rider->address }}</td>
@@ -137,6 +149,25 @@ Riders - View
                             document.getElementById('form').submit();
                         }
 
+                    }
+                }
+
+
+                function viewShipments(){
+                    const checkbox = document.querySelectorAll('input[name="selected[]"]:checked');
+                    if (checkbox.length < 1) {
+                        alert('Please Select Rider First');
+                    }else if(checkbox.length > 1){
+                        alert('Select One Rider To View Shipments');
+                    }
+                    else{
+                        const checkbox = document.querySelectorAll('input[name="selected[]"]:checked');
+                        const form = document.getElementById('assignedShipment_form');
+                        let riderId = checkbox[0].value;
+                        form.action = "{{ route('assignedShipment_riders','') }}/" + riderId;
+                        form.submit();
+                        console.log(riderId);
+                        // document.getElementById('assignedShipment_form').submit();
                     }
                 }
 </script>
