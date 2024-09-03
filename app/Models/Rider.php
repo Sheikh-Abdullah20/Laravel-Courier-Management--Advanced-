@@ -12,7 +12,5 @@ class Rider extends Model
 
     protected $guarded = [];
 
-    public function rider(){
-        return $this->belongsTo(RiderAssignedShipment::class,'rider_id');
-    }
+   
 }

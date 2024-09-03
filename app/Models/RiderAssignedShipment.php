@@ -11,11 +11,5 @@ class RiderAssignedShipment extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function shipments(){
-        return $this->hasMany(Shipment::class,'shipment_id');
-    }
-
-    public function has_Riders(){
-        return $this->hasMany(Rider::class,'rider_id');
-    }
+ 
 }
