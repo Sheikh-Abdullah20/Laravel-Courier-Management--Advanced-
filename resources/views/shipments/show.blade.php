@@ -47,6 +47,7 @@
 
             <div class="section-3">
                 <h3>Shipment Information</h3>
+                <p><strong>Company Name: </strong> My Courier </p>
                 <p><strong>Quantity: </strong> {{ $shipment->quantity }} </p>
                 <p><strong>Order Number: </strong> {{ $shipment->order_number }} </p>
                 <p><strong>Tracking No:</strong> {{ $shipment->tracking_number }} </p>

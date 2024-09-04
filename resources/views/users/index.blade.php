@@ -143,7 +143,7 @@
 @section('scripts')
     <script>
                 function submit_form() {
-                    const checkbox = document.querySelectorAll('input[name="selected[]"]:checked');
+                    const checkbox = document.querySelector('input[name="selected[]"]:checked');
                     if (checkbox.length < 1) {
                         alert('Please Select User First');
                     } else {

@@ -60,8 +60,9 @@ Shipment - Tracking
                     <p>Receiver City: <b>{{ $shipment->city }}</b></p>
                 </div>
                 <div class="col-md-3 p-4">
-                    <h3>Shipment Tracking</h3>
+                    <h3>Shipment Information</h3>
                     <br>
+                    <p>Company Name: <b>My Courier</b></p>
                     <p>Tracking Number: <b>{{ $shipment->tracking_number }}</b></p>
 
                     @if($shipment->status_shipment === 'Delivered')

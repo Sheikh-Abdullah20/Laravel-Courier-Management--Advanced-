@@ -19,6 +19,7 @@ class RiderController extends Controller implements HasMiddleware
             new Middleware('permission:edit riders', ['only' => 'edit']),
             new Middleware('permission:show riders', ['only' => 'show']),
             new Middleware('permission:delete riders', ['only' => 'destroy']),
+            new Middleware('permission:view assignedShipment_riders', ['only' => 'assignedShipment_riders']),
         ];
     }
 
@@ -126,7 +127,7 @@ class RiderController extends Controller implements HasMiddleware
     }
 
 
-    public function assignedShipment_riders($id){
+    public function assignedShipment_riders(Request $request,$id){
         $assignedRiderShipments = RiderAssignedShipment::where('rider_id',$id)->get();
         $rider = Rider::find($id);
         $shipments = collect();
@@ -138,8 +139,57 @@ class RiderController extends Controller implements HasMiddleware
            $shipments = $shipments->merge($shipment);
         }
     }
-        // return $shipments;
+        if($request->filled('selected') && $request->filled('rider_id')){
+            $riderId = $request->rider_id;
+            $selectedId = $request->selected;
+            $delete = RiderAssignedShipment::where('rider_id',$riderId)->WhereIn('shipment_id',$selectedId)->delete();
+            if($delete){
+                return redirect()->back()->with('success','Assigned Shipments Has Been Deleted');
+            }
+        }
 
+
+        if($request->has('download')){
+            $filename = "AssignedShipments_Rider" . time() . '.csv';
+
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"'
+            ];
+
+            $generate = function() use ($shipments){
+                $file = fopen("php://output",'w');
+
+                fputcsv($file,[
+                    'Order Tracking', 'Agent Name	','City','PickUp Address','Delivery Address','Return Address','Package Type','Weight' ,'Sender Name','Receiver Name','Sender Email','Receiver Email','Order Number' ,'Shipping Date','Assigning Date','Amount'
+                ]);
+
+                foreach($shipments as $shipment){
+                    fputcsv($file,[
+                        $shipment->order_tracking,
+                        $shipment->agent_name,
+                        $shipment->city,
+                        $shipment->pickup_address,
+                        $shipment->delivery_address,
+                        $shipment->return_address,
+                        $shipment->package_type,
+                        $shipment->weight,
+                        $shipment->sender_name,
+                        $shipment->receiver_name,
+                        $shipment->sender_email,
+                        $shipment->receiver_email,
+                        $shipment->order_number,
+                        $shipment->shipping_date,
+                        $shipment->assigning_date,
+                        $shipment->amount
+                    ]);
+                }
+
+                fclose($file);
+            };
+
+            return response()->stream($generate,200,$headers);
+        }
        return view('riders.viewAssignedShipments',compact('shipments','rider'));
 
     }
