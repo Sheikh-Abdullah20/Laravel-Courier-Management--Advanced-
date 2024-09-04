@@ -37,21 +37,6 @@ Profile
         </div>
     </div>
 
-
-    <div class="row my-3">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="{{ route('accountDeactivation') }}" class="button button-danger align-content-center" onclick="return confirm('Are You Sure You Want to Delete This Account?')">Deactivate Account</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </section>
 
 @endsection
