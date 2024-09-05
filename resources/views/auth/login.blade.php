@@ -40,7 +40,7 @@ Sign-in
 
                 <div class="mb-4">
                     <div class="row justify-content-center">
-                        <button type="submit" class="btn btn-dark">Login</button>
+                        <button type="submit" class="btn btn-light d-flex justify-content-center"><i class="icon material-icons md-person mx-1"></i>Login</button>
                     </div>
                 </div>
             </form>

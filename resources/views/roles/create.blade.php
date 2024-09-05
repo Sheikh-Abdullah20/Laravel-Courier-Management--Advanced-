@@ -23,8 +23,11 @@ Role - Create
                         <div class="mb-3">
                             <label for="Permission">Role Name</label>
                             <input type="text" class="form-control" id="Permission" name="role">
+                            @error('role')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <button type="submit" class="btn btn-dark">Create Role</button>
+                        <button type="submit" class="btn btn-light font-sm mb-3"><i class="icon material-icons md-create mx-1"></i>Create Role</button>
                 </div>
             </div>
         </div>

@@ -70,7 +70,8 @@ Rider - Edit
                         @enderror
                     </div>
 
-                    <button class="btn btn-dark" type="submit">Edit Rider</button>
+                    <button class="btn btn-light my-3" type="submit"><i
+                        class="icon material-icons md-edit mx-1"></i>Edit Rider</button>
                    </form>
                 </div>
             </div>

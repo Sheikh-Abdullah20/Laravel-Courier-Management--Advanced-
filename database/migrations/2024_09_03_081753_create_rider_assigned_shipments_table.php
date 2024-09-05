@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('rider_assigned_shipments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rider_id')->constrained('riders');
-            $table->foreignId('shipment_id')->constrained('shipments');
+            $table->foreignId('rider_id')->constrained('riders')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('shipment_id')->constrained('shipments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

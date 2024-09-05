@@ -15,7 +15,7 @@ Status - View
         </div>
         @can('create status')
         <div>
-            <a href="{{ route('status.create') }}" class="btn btn-dark">Create status</a>
+            <a href="{{ route('status.create') }}" class="btn btn-light font-sm"><i class="icon material-icons md-create mx-1" ></i>Create status</a>
         </div>
         @endcan
     </div>
@@ -28,7 +28,7 @@ Status - View
                         @can('delete status')
                         <div class="row">
                             <div class="col-md-12 d-flex  justify-content-end">
-                                <a id="submit_button" class="btn btn-danger mx-1"><i class="icon material-icons md-delete"></i>Delete Status</a>
+                                <a id="submit_button" class="btn btn-danger font-sm mb-3 mx-1"><i class="icon material-icons md-delete"></i>Delete Status</a>
                             </div>
                         </div>
                         @endcan
@@ -45,6 +45,8 @@ Status - View
                                 <th>Status Name</th>
                                 @if(auth()->user()->hasPermissionTo('edit status') || auth()->user()->hasPermissionTo('delete status') )
                                 <th>Actions</th>
+                                @elseif(auth()->user()->hasrole('admin'))
+                                <th>Actions</th>
                                 @endif
                             </tr>
                         </thead>
@@ -56,12 +58,12 @@ Status - View
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete status'))
                                 <td>
-                                    <input type="checkbox" name="selected[]" value="{{ $status->id }}">
+                                    <input type="checkbox" name="selected[]" value="{{ $status->id }}" class="form-check-input">
                                 </form>
                                 </td>
                                 @elseif(auth()->user()->hasRole('admin'))
                                 <td>
-                                    <input type="checkbox" name="selected[]" value="{{ $status->id }}">
+                                    <input type="checkbox" name="selected[]" value="{{ $status->id }}" class="form-check-input">
                                 </form>
                                 </td>
                                 @endif
@@ -98,10 +100,11 @@ Status - View
             </div>
         </div>
     </div>
-    <div class="row">
-        {{ $statuss->links() }}
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            {{ $statuss->links() }}
+        </nav>
     </div>
-
 
 
 

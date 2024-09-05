@@ -18,6 +18,9 @@
     .no-print{
         display: none !important;
     }
+    footer{
+        display: none !important;
+    }
     @page{
         size: A4 !important;
         margin: 0 !important;

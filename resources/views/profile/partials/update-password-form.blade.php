@@ -1,6 +1,6 @@
 <section class="mb-4">
     <header>
-        <h2 class="h4 text-dark">
+        <h2 class="content-title">
             {{ __('Update Password') }}
         </h2>
 
@@ -54,7 +54,8 @@
 
         <div class=" row d-flex align-items-center gap-2">
             <div class="col-md-4">
-                <button type="submit" class="button">
+                <button type="submit" class="btn btn-light">
+                    <i class="icon material-icons md-save mx-1"></i>
                     {{ __('Save') }}
                 </button>
             </div>

@@ -14,7 +14,8 @@ Riders - View
         </div>
         @can('create riders')
             <div>
-                <a href="{{ route('rider.create') }}" class="btn btn-dark">Create Rider</a>
+                <a href="{{ route('rider.create') }}" class="btn btn-light font-sm"><i
+                    class="icon material-icons md-create mx-1"></i>Create Rider</a>
             </div>
         @endcan
     </div>
@@ -28,18 +29,18 @@ Riders - View
                             @can('delete riders')
                             <form id="assignedShipment_form" method="GET">
                                 @csrf
-                                <a onclick="viewShipments() " class="btn btn-info mx-2"><i
-                                    class="icon material-icons md-visibility mx-1"></i>View Rider Assigned Shipments </a>
+                                <a onclick="viewShipments() " class="btn btn-warning mx-2 font-sm"><i
+                                    class="icon material-icons md-assignment mx-1"></i>View Rider Assigned Shipments </a>
                             @endcan
                             </form>
                            
 
                             @can('delete riders')
-                                <button type="button" onclick="submit_form() " class="btn btn-danger mx-2"><i
+                                <button type="button" onclick="submit_form() " class="btn btn-danger mx-2 font-sm"><i
                                         class="icon material-icons md-delete mx-1"></i>Delete Riders </button>
                             @endcan
                             @can('download reports')
-                                <a href="{{ route('download_rider_report') }}" class="btn btn-dark"><i
+                                <a href="{{ route('download_rider_report') }}" class="btn btn-light font-sm"><i
                                     class="icon material-icons md-get_app mx-1"></i>Download Riders Report</a>
                             @endcan
                         </div>
@@ -49,7 +50,7 @@ Riders - View
                     @csrf
                     <div class="table-responsive">
                     <table  class="table table-striped text-center">
-                        <thead>
+                        <thead class="table-light">
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete riders'))
                                 <th>Select</th>
@@ -80,12 +81,12 @@ Riders - View
                                     @if(auth()->user()->hasPermissionTo('delete riders'))
                                     <td>
                                         <input type="checkbox" name="selected[]" id="checkbox"
-                                            value="{{ $rider->id }}">
+                                            value="{{ $rider->id }}" class="form-check-input">
                                     </td>
                                     @elseif(auth()->user()->hasRole('admin'))
                                     <td>
                                         <input type="checkbox" name="selected[]" id="checkbox"
-                                            value="{{ $rider->id }}">
+                                            value="{{ $rider->id }}" class="form-check-input">
                                     </td>
                                     @endif
                                     <td>{{ $count }}</td>
@@ -98,7 +99,7 @@ Riders - View
                                         <div class="row justify-content-center">
                                             @can('show riders')
                                                 <div class="col-md-2 mx-2 my-2">
-                                                    <a href="{{ route('rider.show', $rider) }}" class="btn btn-sm btn-info"><i
+                                                    <a href="{{ route('rider.show', $rider) }}" class="btn btn-sm btn-warning"><i
                                                             class="icon material-icons md-visibility"></i></a>
                                                 </div>
                                             @endcan
@@ -167,7 +168,6 @@ Riders - View
                         form.action = "{{ route('assignedShipment_riders','') }}/" + riderId;
                         form.submit();
                         console.log(riderId);
-                        // document.getElementById('assignedShipment_form').submit();
                     }
                 }
 </script>

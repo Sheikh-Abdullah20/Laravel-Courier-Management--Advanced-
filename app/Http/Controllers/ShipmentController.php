@@ -33,10 +33,10 @@ class ShipmentController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
-        
+       
         $action = $request->action;
         if ($action === 'delete') {
-            $selectedIds = $request->selected;
+            $selectedIds = explode(',', $request->input('selectedId'));
             $shipments = Shipment::whereIn('id', $selectedIds)->delete();
             if ($shipments) {
                 return redirect()->route('shipment.index')->with('delete', 'Selected Shipments deleted successfully');
@@ -44,8 +44,8 @@ class ShipmentController extends Controller implements HasMiddleware
                 return redirect()->route('shipment.index')->with('error', 'Shipments not Deleted Something went wrong');
             }
         } elseif ($action === 'print') {
-            $selectedIds = $request->selected;
-            $rider = $request->rider;
+            $selectedIds = explode(',', $request->input('selectedId'));
+            $rider = $request->riderId;
             $findRider = Rider::find($rider);
             $shipments = Shipment::whereIn('id', $selectedIds)->get();
 

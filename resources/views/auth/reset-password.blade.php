@@ -19,12 +19,12 @@ Reset - Password
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="card w-50 m-auto p-5">
+            <div class="reset-password">
+            <div class="card">
                 <x-alert/>
-                
                 <div class="card-body p-5 mt-3">
                     <h2 class="text-center mb-4">Choose New Password</h2>
-                    <form action="{{ route('password.store') }}" method="POST">
+                    <form action="{{ route('password.store') }}" method="POST" class="w-75 m-auto">
                         @csrf
                         <input type="hidden" name="token" value="{{ $request->route('token') }}">
                         <div class="mb-3">
@@ -48,11 +48,12 @@ Reset - Password
                             @enderror
                         </div>
                         <div class="row justify-content-center">
-                            <button class="btn btn-dark my-3" type="submit">Change Password</button>
+                            <button class="btn btn-light d-flex justify-content-center my-3" type="submit"><i class="icon material-icons md-done mx-1"></i>Save Password</button>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

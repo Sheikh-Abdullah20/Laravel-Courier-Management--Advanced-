@@ -28,7 +28,7 @@ User - Show
                 <hr>
                 <h4> <b> User Phone : {{ $user->phone }} </b> </h4>
                 <hr>
-                <h4> <b> User Country : {{ $user->country }} </b> </h4>
+                <h4> <b> User City : {{ $user->city }} </b> </h4>
                 <hr>
                 <h4> <b> User Date Of Birth : {{ $user->dob}} </b> </h4>
 
@@ -36,7 +36,8 @@ User - Show
 
             <div class="row my-4 px-2 ">
                 <div class="col-md-6">
-                    <a href="{{ route('user.index') }}" class="btn btn-dark p-2 w-25  ">Back</a>
+                    <a href="{{ route('user.index') }}" class="btn btn-light w-50  d-flex align-items-center justify-content-center"><i
+                        class="icon material-icons md-arrow_back mx-1"></i>Back</a>
                 </div>
             </div>
         </div>

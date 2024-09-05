@@ -188,9 +188,8 @@ Shipment - Edit
                                     @enderror
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="from_area">From Area*</label>
@@ -200,6 +199,16 @@ Shipment - Edit
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                      
+                           
+
+                          
+                        
+
+
+                        <div class="row">
 
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -210,10 +219,7 @@ Shipment - Edit
                                     @enderror
                                 </div>
                             </div>
-                        </div>
 
-
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="payment_method">payment Method*</label>
@@ -292,7 +298,8 @@ Shipment - Edit
                         </div>
 
 
-                        <button type="submit" class="btn btn-dark my-4">Update Shipment</button>
+                        <button type="submit" class="btn btn-light font-sm my-4"><i
+                            class="icon material-icons md-edit mx-1"></i>Update Shipment</button>
                 </div>
             </div>
         </div>

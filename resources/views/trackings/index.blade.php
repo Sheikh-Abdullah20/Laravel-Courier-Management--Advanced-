@@ -22,7 +22,7 @@ Shipment - Tracking
                 <input type="number" class="form-control w-50" placeholder="Tracking Number" id="track" name="track"
                     value="{{ old('track') }}">
 
-                <button class="btn btn-dark my-3 d-block" type="submit">Track Your Shipment</button>
+                <button class="btn btn-light font-sm my-3" type="submit"><i class="icon material-icons md-location_searching mx-1"></i>Track Your Shipment</button>
 
             </form>
             @if(request()->has('track'))

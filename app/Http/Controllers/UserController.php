@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AccountCreationMail;
-use App\Models\Agent;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -94,11 +93,10 @@ class UserController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $user = User::find($id);
-        $agent = Agent::where('email', $user->email)->first();
         $roles = Role::all();
         $hasRole = $user->roles->pluck('name');
 
-        return view('users.edit', compact('user', 'roles', 'agent', 'hasRole'));
+        return view('users.edit', compact('user', 'roles', 'hasRole'));
     }
 
     public function update(Request $request, string $id)

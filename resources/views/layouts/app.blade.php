@@ -10,7 +10,7 @@
         <meta property="og:type" content="" />
         <meta property="og:url" content="" />
         <meta property="og:image" content="" />
-        <link rel="shortcut icon" href="{{ asset('assets/imgs/guest-imgs/logo.png') }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('assets/imgs/guest-imgs/final-logo.png') }}" type="image/x-icon">
         @yield('css')
         <link href="{{ asset('assets/css/main.css?v=6.0') }}" rel="stylesheet" type="text/css" />
     </head>
@@ -124,10 +124,13 @@
             </nav>
         </aside>
         <main class="main-wrap">
-            <header class="main-header navbar">
+            <header class="main-header navbar justify-content-end">
                 <div class="col-nav">
                     <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
-                    <ul class="nav">                      
+                    <ul class="nav">           
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="javascript::void()"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>           
                         <li class="dropdown nav-item">
                             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> {{ Auth::user()->name }}  ( {{ Auth::user()->roles->pluck('name')->implode('') }} ) </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
@@ -146,9 +149,12 @@
                    
                 </div>
             </header>
+            
           @yield('content')
             <!-- content-main end// -->
         </main>
+
+        
         <script src="{{ asset('assets/js/vendors/jquery-3.6.0.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendors/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendors/select2.min.js') }}"></script>
@@ -158,6 +164,7 @@
         <script src="{{ asset('assets/js/main.js?v=6.0') }}" type="text/javascript"></script>
         <script src="{{ asset('assets/js/custom-chart.js') }}" type="text/javascript"></script>
         <script src="{{ asset('assets/js/vendors/alert.js') }}"></script>
+        <script src="{{ asset('assets/js/vendors/color-modes.js') }}"></script>
         @yield('scripts')
     </body>
 </html>

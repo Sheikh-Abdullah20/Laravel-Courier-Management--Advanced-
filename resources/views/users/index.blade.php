@@ -15,7 +15,8 @@
             </div>
             @can('create users')
                 <div>
-                    <a href="{{ route('user.create') }}" class="btn btn-dark">Create User</a>
+                    <a href="{{ route('user.create') }}" class="btn btn-light font-sm"><i
+                        class="icon material-icons md-create mx-1"></i>Create User</a>
                 </div>
             @endcan
         </div>
@@ -25,20 +26,21 @@
                     <div class="card-body">
                         <div class="row">
                                 <div class="col-md-6 d-flex justify-content-start">
-                                    <form class="w-50 d-flex" action="{{ route('user.index') }}" method="GET">
+                                    <form class="d-flex" action="{{ route('user.index') }}" method="GET">
                                         <input type="search" class="form-control" name="search" placeholder="Search Here..">
-                                        <button type="submit" class="btn btn-dark mx-2">Search</button>
+                                        <button type="submit" class="btn btn-light font-sm mx-2"><i
+                                            class="icon material-icons md-search mx-1"></i>Search</button>
                                     </form>
 
                                 </div>
 
                             <div class="col-md-6  d-flex justify-content-end">
                                 @can('delete users')
-                                    <button type="button" onclick="submit_form() " class="btn btn-danger mx-2"><i
-                                            class="icon material-icons md-delete mx-1"></i>Delete Users</button>
+                                    <button type="button" onclick="submit_form() " class="btn btn-danger font-sm mx-2"><i
+                                            class="icon material-icons md-delete mx-1"></i>Delete</button>
                                 @endcan
                                 @can('download reports')
-                                    <a href="{{ route('download_user_report') }}" class="btn btn-dark"><i
+                                    <a href="{{ route('download_user_report') }}" class="btn btn-light font-sm"><i
                                         class="icon material-icons md-get_app mx-1"></i>Download Users Report</a>
                                 @endcan
                             </div>
@@ -50,7 +52,7 @@
                         @csrf
                         <div class="table-responsive">
                         <table id="userTable" class="table  table-striped text-center">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
                                     @if(auth()->user()->hasPermissionTo('delete users'))
                                     <th>Select</th>
@@ -79,12 +81,12 @@
                                         @if(auth()->user()->hasPermissionTo('delete users'))
                                         <td>
                                             <input type="checkbox" name="selected[]" id="checkbox"
-                                                value="{{ $user->id }}">
+                                                value="{{ $user->id }}" class="form-check-input">
                                         </td>
                                         @elseif(auth()->user()->hasRole('admin'))
                                         <td>
                                             <input type="checkbox" name="selected[]" id="checkbox"
-                                                value="{{ $user->id }}">
+                                                value="{{ $user->id }}" class="form-check-input">
                                         </td>
                                         @endif
                                         <td>{{ $count }}</td>
@@ -96,7 +98,7 @@
                                             <div class="row justify-content-center">
                                                 @can('show users')
                                                     <div class="col-md-2 my-2">
-                                                        <a href="{{ route('user.show', $user) }}" class="btn btn-sm btn-info"><i
+                                                        <a href="{{ route('user.show', $user) }}" class="btn btn-sm btn-warning"><i
                                                                 class="icon material-icons md-visibility"></i></a>
                                                     </div>
                                                 @endcan
@@ -143,7 +145,7 @@
 @section('scripts')
     <script>
                 function submit_form() {
-                    const checkbox = document.querySelector('input[name="selected[]"]:checked');
+                    const checkbox = document.querySelectorAll('input[name="selected[]"]:checked');
                     if (checkbox.length < 1) {
                         alert('Please Select User First');
                     } else {

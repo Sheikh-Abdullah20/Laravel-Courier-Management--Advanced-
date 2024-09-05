@@ -19,16 +19,14 @@ Reports
             <input type="hidden" value="{{ $from }}" name="from">
             <input type="hidden" value="{{ $to }}" name="to">
             <input type="hidden" value="{{ $city }}" name="city">
-            <button type="submit" class="btn btn-dark" name="download">Download Report<i
-                class="icon material-icons md-get_app"></i></button>
+            <button type="submit" class="btn btn-light font-sm" name="download"><i
+                class="icon material-icons md-get_app mx-1"></i>Download Report</button>
         </form>
         </div>
 
 
     <div class="col-md-8 ">
         <form action="{{ route('report.index') }}" method="GET" class="d-flex justify-content-end mb-4">
-          
-
         <label for="from" class="form-label my-2">From</label>
         <input type="date" class="form-control mx-2" name="from" id="from">
 
@@ -37,13 +35,14 @@ Reports
         <input type="date" class="form-control mx-2" name="to" id="to">
 
        
-            <select class="form-select w-25" name="city">
+            <select class="form-select w-75" name="city">
                 <option value="" hidden>Select City</option>
                 @foreach($agents as $agent)
                 <option value="{{ $agent->city }}">{{ $agent->city }}</option>
                 @endforeach
             </select>
-        <button type="submit" class="btn btn-dark mx-2">Search</button>
+        <button type="submit" class="btn btn-light font-sm mx-2"><i
+            class="icon material-icons md-search mx-1"></i>Search</button>
     </form>
 
     </div>
@@ -60,8 +59,8 @@ Reports
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                    <table class="table table-stripped text-center">
-                        <thead>
+                    <table class="table table-striped text-center">
+                        <thead class="table-light">
                             <tr>
                             <th>Tracking Number</th>
                             <th>Agent Name</th>
@@ -76,8 +75,8 @@ Reports
                             <th>Amount</th>
                         </tr>
                         </thead>
-                        @foreach($shipments as $shipment)
                         <tbody>
+                            @foreach($shipments as $shipment)
                             <tr>
                                 <td>{{ $shipment->tracking_number }}</td>
                                 <td>{{ $shipment->agent_name}}</td>
@@ -88,28 +87,29 @@ Reports
                                 <td>{{ $shipment->receiver_name}}</td>
                                 <td>
                                 @if($shipment->status === 'Approved')
-                                <p class="bg-success p-1 text-light rounded">{{ $shipment->status }}</p>
+                                <p class="bg-success p-1 text-light rounded font-sm">{{ $shipment->status }}</p>
                                 @elseif($shipment->status === 'Pending')
-                                <p class="bg-danger p-1 text-light rounded">{{ $shipment->status }}</p>
+                                <p class="bg-danger p-1 text-light rounded font-sm">{{ $shipment->status }}</p>
                                 @endif
                             </td>
                             <td>
                                 
+                                
                                 @if($shipment->status_shipment === 'Order Initiated')
-                                <p class="bg-success p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-success p-1 text-light rounded font-sm">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'On the way')
-                                <p class="bg-primary p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-primary p-1 text-light rounded font-sm">{{ $shipment->status_shipment }}</p>
                                 @elseif($shipment->status_shipment === 'Delivered')
-                                <p class="bg-warning p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-warning p-1 text-light rounded font-sm">{{ $shipment->status_shipment }}</p>
                                 @else
-                                <p class="bg-secondary p-1 text-light rounded">{{ $shipment->status_shipment }}</p>
+                                <p class="bg-secondary p-1 text-light rounded font-sm">{{ $shipment->status_shipment }}</p>
                                 @endif
                             </td>
                             <td>{{ $shipment->payment_method }}</td>
                             <td>{{ $shipment->amount }}</td>
                             </tr>    
+                            @endforeach
                         </tbody>
-                        @endforeach
                     </table>
                 </div>
                 </div>

@@ -72,7 +72,7 @@ User - Edit
                             </div>
                         </div>
                                         
-                        <button type="submit" class="btn btn-dark">Update User</button>
+                        <button type="submit" class="btn btn-light font-sm my-3"><i class="icon material-icons md-edit mx-1"></i>Update User</button>
                 </div>
             </div>
         </div>

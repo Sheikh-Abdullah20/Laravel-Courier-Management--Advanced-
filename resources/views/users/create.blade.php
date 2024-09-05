@@ -86,19 +86,8 @@ User - Create
                                 @enderror
                             </div>
                         </div>
-                        
-                        {{-- <div class="agent-inputs" id="agent-input" style="display: none">
-                            <div class="mb-3">
-                                <label for="branch_name">Branch_Name</label>    
-                                <input type="text" class="form-control" name="branch_name" id="branch_name">
-                                @error('branch_name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>   
-                        </div> --}}
-
                        
-                        <button type="submit" class="btn btn-dark">Create User</button>
+                        <button type="submit" class="btn btn-light font-sm my-3"><i class="icon material-icons md-create mx-1"></i>Create User</button>
                 </div>
             </div>
         </div>
@@ -112,25 +101,3 @@ User - Create
 </section>
 
 @endsection
-
-{{-- @section('scripts')
-
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-    const role = document.getElementById('role');
-    const agentInput = document.getElementById('agent-input');
-
-    role.addEventListener('change', function() {
-        if(this.value === 'agent') {
-            agentInput.style.display = 'block'
-        }else {
-            agentInput.style.display = 'none'
-        }
-    });
-    });
-   
-</script>
-
-</script>
-    
-@endsection --}}

@@ -5,19 +5,22 @@ view Shipments
 @endsection
 
 @section('content')
+<x-alert/>
 <section class="content-main">
     <div class="content-header">
         <div>
             <h2 class="content-title">Assigned Shipments Of Rider - ({{ $rider->name }})</h2>
         </div>
 
+        @if($shipments->isNotEmpty())
         <div>
             <form action="{{ route('assignedShipment_riders',$rider->id) }}" method="GET">
                 @csrf
-                <button type="submit" class="btn btn-dark" name="download"><i
+                <button type="submit" class="btn btn-light font-sm" name="download"><i
                     class="icon material-icons md-get_app mx-1"></i>Download Assigned Shipment Report</button>
                 </form>
         </div>
+        @endif
     </div>
     <hr>
  <div class="row">
@@ -25,7 +28,7 @@ view Shipments
         <form id="form" action="{{ route('assignedShipment_riders',$rider->id) }}" method="GET">
             @csrf
             <input type="hidden" value="{{ $rider->id }}" name="rider_id">
-            <a id="button" class="btn btn-danger"><i
+            <a id="button" class="btn btn-danger font-sm"><i
                 class="icon material-icons md-delete mx-1"></i>Delete</a>
         
     </div>
@@ -34,10 +37,12 @@ view Shipments
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-striped d text-center">
-                        <thead>
+                    <div class="table-responsive">
+                    <table class="table table-striped  text-center">
+                        <thead class="table-light">
                             <tr>
                                 <th>Select</th>
+                                <th>Rider Name</th>
                                 <th>Order Tracking</th>
                                 <th>Agent Name</th>
                                 <th>City</th>
@@ -55,9 +60,10 @@ view Shipments
                             <tr>
                                 <td>
                                    
-                                    <input type="checkbox" value="{{ $shipment->id }}" name="selected[]">
+                                    <input type="checkbox" value="{{ $shipment->id }}" name="selected[]" class="form-check-input">
                                
                                 </td>
+                                <td>{{ $rider->name }}</td>
                                 <td>{{ $shipment->tracking_number }}</td>
                                 <td>{{ $shipment->agent_name }}</td>
                                 <td>{{ $shipment->agent->city }}</td>
@@ -73,6 +79,7 @@ view Shipments
                         </form>
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>

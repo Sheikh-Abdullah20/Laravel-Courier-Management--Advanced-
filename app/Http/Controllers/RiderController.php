@@ -144,11 +144,11 @@ class RiderController extends Controller implements HasMiddleware
             $selectedId = $request->selected;
             $delete = RiderAssignedShipment::where('rider_id',$riderId)->WhereIn('shipment_id',$selectedId)->delete();
             if($delete){
-                return redirect()->back()->with('success','Assigned Shipments Has Been Deleted');
+                return redirect()->back()->with('delete','Assigned Shipments Has Been Deleted');
             }
         }
 
-
+       
         if($request->has('download')){
             $filename = "AssignedShipments_Rider" . time() . '.csv';
 
@@ -161,12 +161,15 @@ class RiderController extends Controller implements HasMiddleware
                 $file = fopen("php://output",'w');
 
                 fputcsv($file,[
-                    'Order Tracking', 'Agent Name	','City','PickUp Address','Delivery Address','Return Address','Package Type','Weight' ,'Sender Name','Receiver Name','Sender Email','Receiver Email','Order Number' ,'Shipping Date','Assigning Date','Amount'
+                  'Rider Name' , 'Order Tracking', 'Agent Name	','City','PickUp Address','Delivery Address','Return Address','Package Type','Weight' ,'Sender Name','Receiver Name','Sender Email','Receiver Email','Order Number' ,'Shipping Date','Assigning Date','Amount'
                 ]);
 
                 foreach($shipments as $shipment){
+
+                   
                     fputcsv($file,[
-                        $shipment->order_tracking,
+                        $shipment->assignedshipmentRider->rider->name,
+                        $shipment->tracking_number,
                         $shipment->agent_name,
                         $shipment->city,
                         $shipment->pickup_address,
@@ -180,7 +183,7 @@ class RiderController extends Controller implements HasMiddleware
                         $shipment->receiver_email,
                         $shipment->order_number,
                         $shipment->shipping_date,
-                        $shipment->assigning_date,
+                        $shipment->created_at->format('d M Y'),
                         $shipment->amount
                     ]);
                 }

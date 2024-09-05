@@ -14,7 +14,7 @@ Roles - View
         </div>
         @can('create roles')
         <div>
-            <a href="{{ route('role.create') }}" class="btn btn-dark">Create Role</a>
+            <a href="{{ route('role.create') }}" class="btn btn-light font-sm"><i class="icon material-icons md-create mx-1"></i>Create Role</a>
         </div>
         @endcan
     </div>
@@ -27,7 +27,7 @@ Roles - View
                     @can('delete roles')
                     <div class="row">
                         <div class="col-md-12 d-flex  justify-content-end">
-                            <a id="submit_button"  class="btn btn-danger mx-1"><i class="icon material-icons md-delete"></i>Delete Roles</a>
+                            <a id="submit_button"  class="btn btn-danger mx-1 mb-3 font-sm"><i class="icon material-icons md-delete"></i>Delete Roles</a>
                         </div>
                     </div>
                     @endcan
@@ -45,6 +45,8 @@ Roles - View
                                 <th>Role Permissions</th>
                                 @if(auth()->user()->hasPermissionTo('edit roles') || auth()->user()->hasPermissionTo('delete roles'))
                                 <th>Actions</th>
+                                @elseif(auth()->user()->hasRole('admin'))
+                                <th>Actions</th>
                                 @endif
                             </tr>
                         </thead>
@@ -56,12 +58,12 @@ Roles - View
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete roles'))
                                 <td>
-                                    <input type="checkbox" value="{{ $role->id }}" name="selected[]">
+                                    <input type="checkbox" value="{{ $role->id }}" name="selected[]" class="form-check-input">
                                 </form>
                                 </td>
                                 @elseif(auth()->user()->hasRole('admin'))
                                 <td>
-                                    <input type="checkbox" value="{{ $role->id }}" name="selected[]">
+                                    <input type="checkbox" value="{{ $role->id }}" name="selected[]" class="form-check-input">
                                 </form>
                                 </td>
                                 @endif
@@ -99,8 +101,10 @@ Roles - View
             </div>
         </div>
     </div>
-    <div class="row">
-        {{ $roles->links() }}
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            {{ $roles->links() }}
+        </nav>
     </div>
 
 

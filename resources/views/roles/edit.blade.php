@@ -28,7 +28,7 @@ Role - Edit
                         @error('role')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-                        <button type="submit" class="btn btn-dark">Update Role</button>
+                        <button type="submit" class="btn btn-light font-sm mb-3"><i class="icon material-icons md-edit mx-1"></i>Update Role</button>
                 </div>
             </div>
         </div>

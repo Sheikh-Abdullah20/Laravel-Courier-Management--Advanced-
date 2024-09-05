@@ -185,9 +185,7 @@ Shipment - Create
                                 </div>
                             </div>
                             @endif
-                        </div>
 
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="from_area">From Area*</label>
@@ -198,6 +196,13 @@ Shipment - Create
                                 </div>
                             </div>
 
+                        </div>
+
+                     
+
+
+                        <div class="row">
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="to_area">To Area*</label>
@@ -207,10 +212,7 @@ Shipment - Create
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="row">
+                            
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="payment_method">payment Method*</label>
@@ -287,7 +289,8 @@ Shipment - Create
                         </div>
 
 
-                        <button type="submit" class="btn btn-dark my-4">Create Shipment</button>
+                        <button type="submit" class="btn btn-light font-sm my-4"><i
+                            class="icon material-icons md-create mx-1"></i>Create Shipment</button>
                 </div>
             </div>
         </div>

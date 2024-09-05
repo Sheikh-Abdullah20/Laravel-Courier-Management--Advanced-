@@ -28,7 +28,8 @@ Status - Create
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button class="btn btn-dark" type="submit">Create Status</button>
+                    <button class="btn btn-light font-sm mb-3" type="submit"><i
+                        class="icon material-icons md-create mx-1"></i>Create Status</button>
                    </form>
                 </div>
             </div>

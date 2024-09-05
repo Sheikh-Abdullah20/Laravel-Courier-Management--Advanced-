@@ -66,7 +66,8 @@ Agent - Edit
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-dark my-3" >Update Agent</button>
+                        <button type="submit" class="btn btn-light font-sm my-3" ><i
+                            class="icon material-icons md-edit mx-1"></i>Update Agent</button>
                 </div>
             </div>
         </div>

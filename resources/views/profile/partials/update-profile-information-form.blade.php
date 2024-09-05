@@ -1,6 +1,6 @@
 <section class="mb-4">
     <header>
-        <h2 class="h4 text-dark">
+        <h2 class="content-title">
             {{ __('Profile Information') }}
         </h2>
 
@@ -77,7 +77,8 @@
         </div>
 
         <div class="d-flex align-items-center gap-2">
-            <button type="submit" class="button">
+            <button type="submit" class="btn btn-light ">
+                <i class="icon material-icons md-save mx-1"></i>
                 {{ __('Save') }}
             </button>
         </div>

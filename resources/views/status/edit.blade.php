@@ -29,7 +29,8 @@ Status - Edit
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-dark">Update Status</button>
+                        <button type="submit" class="btn btn-light font-sm mb-3"><i
+                            class="icon material-icons md-edit mx-1"></i> Edit Status</button>
                 </div>
             </div>
         </div>

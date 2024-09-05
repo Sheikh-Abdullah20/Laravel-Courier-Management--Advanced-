@@ -69,7 +69,8 @@ Rider - Create
                         @enderror
                     </div>
 
-                    <button class="btn btn-dark" type="submit">Create Rider</button>
+                    <button class="btn btn-light my-3" type="submit"><i
+                        class="icon material-icons md-create mx-1"></i> Create Rider</button>
                    </form>
                 </div>
             </div>

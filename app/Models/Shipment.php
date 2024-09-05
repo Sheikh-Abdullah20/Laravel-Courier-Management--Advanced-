@@ -17,6 +17,10 @@ class Shipment extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function assignedshipmentRider(){
+        return $this->hasOne(RiderAssignedShipment::class, 'shipment_id');
+    }
+
  
 
     

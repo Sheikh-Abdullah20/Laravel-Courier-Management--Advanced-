@@ -15,7 +15,8 @@ Agents - View
         </div>
         @can('create agents')
         <div class="mb-4">
-            <a href="{{ route('agent.create') }}" class="btn btn-dark">Create Agent</a>
+            <a href="{{ route('agent.create') }}" class="btn btn-light font-sm"><i
+                class="icon material-icons md-create mx-1"></i>Create Agent</a>
         </div>
         @endcan
     </div>
@@ -24,19 +25,20 @@ Agents - View
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row my-3 ">
+                    <div class="row mb-3">
                         <div class="col-md-6 d-flex justify-content-start">
-                            <form action="{{ route('agent.index') }}" method="GET" class="w-50 d-flex">
+                            <form action="{{ route('agent.index') }}" method="GET" class="d-flex">
                                 <input type="search" class="form-control" name="search" placeholder="Search Here..">
-                                <button class="btn btn-dark mx-2" type="submit">Search</button>
+                                <button class="btn btn-light mx-2 font-sm" type="submit"><i
+                                    class="icon material-icons md-search mx-1"></i>Search</button>
                             </form>
                         </div>
                         <div class="col-md-6 d-flex justify-content-end">
                             @can('delete agents')
-                            <button class="btn btn-danger mx-2" type="button" onclick="select()"><i class="icon material-icons md-delete mx-1"></i>Delete Agents</button>
+                            <button class="btn btn-danger mx-2 font-sm" type="button" onclick="select()"><i class="icon material-icons md-delete mx-1"></i>Delete</button>
                             @endcan
                             @can('download reports')
-                            <a href="{{ route('download_agent_report') }}" class="btn btn-dark"><i
+                            <a href="{{ route('download_agent_report') }}" class="btn btn-light font-sm"><i
                                 class="icon material-icons md-get_app mx-1"></i>Download Agents Report</a>
                                 @endcan
                         </div>
@@ -45,7 +47,7 @@ Agents - View
                         @csrf
                         <div class="table-responsive">
                     <table class="table   table-striped text-center">
-                        <thead>
+                        <thead class="table-light">
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete agents'))
                                 <th>Select</th>
@@ -73,12 +75,12 @@ Agents - View
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete agents'))
                                 <td>
-                                 <input type="checkbox" name="selected[]" id="select" value="{{ $agent->id }}">
+                                 <input type="checkbox" name="selected[]" id="select" value="{{ $agent->id }}" class="form-check-input">
                                 </form>
                                 </td>
                                 @elseif(auth()->user()->hasRole('admin'))
                                 <td>
-                                 <input type="checkbox" name="selected[]" id="select" value="{{ $agent->id }}">
+                                 <input type="checkbox" name="selected[]" id="select" value="{{ $agent->id }}" class="form-check-input">
                                 </form>
                                 </td>
                                 @endif
@@ -92,7 +94,7 @@ Agents - View
                                     <div class="row justify-content-center">
                                         @can('show agents')
                                         <div class="col-md-2 mx-2 my-2">
-                                            <a href="{{ route('agent.show',$agent) }}" class="btn btn-sm btn-info"><i class="icon material-icons md-visibility"></i></a>
+                                            <a href="{{ route('agent.show',$agent) }}" class="btn btn-sm btn-warning"><i class="icon material-icons md-visibility"></i></a>
                                         </div>
                                         @endcan
 

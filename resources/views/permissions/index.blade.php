@@ -15,7 +15,7 @@ Permission - View
 
         @can('create permissions')
         <div>
-            <a href="{{ route('permission.create') }}" class="btn btn-dark">Create Permission</a>
+            <a href="{{ route('permission.create') }}" class="btn btn-light font-sm"><i class="icon material-icons md-create mx-1"></i>Create Permission</a>
         </div>
         @endcan
     </div>
@@ -26,9 +26,9 @@ Permission - View
                 <div class="card-body">
                     <form id="form" action="{{ route('permission.index') }}" method="GET">
                         @can('delete permissions')
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-12 d-flex  justify-content-end">
-                                <a id="submit_button" class="btn btn-danger mx-1"><i class="icon material-icons md-delete"></i>Delete Permissions</a>
+                                <a id="submit_button" class="btn btn-danger font-sm mx-1"><i class="icon material-icons md-delete"></i>Delete Permissions</a>
                             </div>
                         </div>
                         @endcan
@@ -44,6 +44,8 @@ Permission - View
                                 <th>Permission Name</th>
                                 @if(auth()->user()->hasPermissionTo('edit permissions') || auth()->user()->hasPermissionTo('delete permissions'))
                                 <th>Actions</th>
+                                @elseif(auth()->user()->hasRole('admin'))
+                                <th>Actions</th>
                                 @endif
                             </tr>
                         </thead>
@@ -55,12 +57,12 @@ Permission - View
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete permissions'))
                                 <td>
-                                        <input type="checkbox" name="selected[]" value="{{ $permission->id }}">
+                                        <input type="checkbox" name="selected[]" value="{{ $permission->id }}" class="form-check-input">
                                     </form>
                                 </td>
                                 @elseif(auth()->user()->hasRole('admin'))
                                 <td>
-                                    <input type="checkbox" name="selected[]" value="{{ $permission->id }}">
+                                    <input type="checkbox" name="selected[]" value="{{ $permission->id }}" class="form-check-input">
                                 </form>
                                  </td>
                                 @endif
@@ -97,9 +99,12 @@ Permission - View
             </div>
         </div>
     </div>
-    <div class="row">
-        {{ $permissions->links() }}
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            {{ $permissions->links() }}
+        </nav>
     </div>
+  
 
 
 

@@ -6,36 +6,30 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" href="{{ asset('assets/imgs/guest-imgs/logo.png') }}" type="image/x-icon">
         <link href="{{ asset('assets/css/main.css?v=6.0') }}" rel="stylesheet" type="text/css" />
         @yield('css')
         <style>
 
             body{
                 background: #f8f9fa !important;
+                
             }
-            button{
-                width: 200px !important;
-                height: 50px !important;
-                border-radius: 5rem !important;
-                text-align: center !important;
-                display: block !important;
+
+            .forgot-password{
+                margin-top: 3rem;
             }
-            .btn{
-                display: block !important;
-                width: 200px !important;
-                height: 50px !important;
-                border-radius: 5rem !important;
-            }
+           .reset-password{
+            margin-top: 2rem;
+           }
         </style>
     </head>
 
     <body>
-        <x-alert/>
         <main>
            @yield('content')
         </main>
     </body>
-    <script src="{{ asset('assets/js/vendors/color-modes.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendors/select2.min.js') }}"></script>

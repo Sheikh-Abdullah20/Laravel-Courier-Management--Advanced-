@@ -18,25 +18,28 @@ Forgot - Password
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="card w-50 m-auto p-5">
-                <x-alert/>
-                <div class="card-body p-5 mt-3">
-                    <p class="text-sm text-dark"> Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one. </p>
-
-                    <form action="{{ route('password.email') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <input type="email" class="form-control" name="email" placeholder="Enter Your Email">
-                            @error('email')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="row justify-content-center">
-                            <button class="btn btn-dark my-3" type="submit">Submit</button>
-                        </div>
-                    </form>
+            <div class="forgot-password">
+                <div class="card">
+                    <x-alert/>
+                    <div class="card-body p-5 mt-3">
+                        <p class="text-sm text-dark text-center"> <span class="text-danger">Forgot your password? </span><br>  No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one. </p>
+    
+                        <form action="{{ route('password.email') }}" method="POST" class="w-75 m-auto">
+                            @csrf
+                            <div class="mb-3">
+                                <input type="email" class="form-control" name="email" placeholder="Enter Your Email">
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="row justify-content-center">
+                                <button class="btn btn-light my-3 w-50 d-flex justify-content-center " type="submit"><i class="icon material-icons md-send mx-1"></i>Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+          
         </div>
     </div>
 </div>

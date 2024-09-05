@@ -23,8 +23,11 @@ Permission - Create
                         <div class="mb-3">
                             <label for="Permission">Permission Name</label>
                             <input type="text" class="form-control" id="Permission" name="permission">
+                            @error('permission')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <button type="submit" class="btn btn-dark">Create Permission</button>
+                        <button type="submit" class="btn btn-light font-sm"><i class="icon material-icons md-create mx-1"></i>Create Permission</button>
                     </form>
                 </div>
             </div>

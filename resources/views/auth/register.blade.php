@@ -120,7 +120,7 @@ Sign-up
 
                 <div class="mb-4">
                     <div class="row justify-content-center">
-                        <button type="submit" class="btn btn-dark">Sign-up</button>
+                        <button type="submit" class="btn btn-light w-25 d-flex justify-content-center"><i class="icon material-icons md-person_add mx-1"></i>Sign-up</button>
                     </div>
                 </div>
             </form>
