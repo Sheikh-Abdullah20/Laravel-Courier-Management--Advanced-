@@ -36,9 +36,9 @@ Roles - View
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete roles'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @elseif(auth()->user()->hasRole('admin'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @endif
                                 <th>Role ID</th>
                                 <th>Role Name</th>
@@ -124,11 +124,20 @@ Roles - View
          alert('Please Select Atleast One Role');
          return false;
      }else{
-         document.getElementById('form').submit();
+        confirmed = confirm('Are You Sure You Want to Delete Role?');
+        if(confirmed){
+            document.getElementById('form').submit();
+        }
      }
 
     });
        
+    function AllSelected(){
+        let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = document.getElementById('selectAll').checked;
+        }); 
+    }
     
      
 </script>

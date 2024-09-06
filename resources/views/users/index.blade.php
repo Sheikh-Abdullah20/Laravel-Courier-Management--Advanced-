@@ -55,10 +55,10 @@
                             <thead class="table-light">
                                 <tr>
                                     @if(auth()->user()->hasPermissionTo('delete users'))
-                                    <th>Select</th>
+                                    <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                     
                                     @elseif(auth()->user()->hasRole('admin'))
-                                    <th>Select</th>
+                                    <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                     @endif
                                     <th>User ID</th>
                                     <th>User Name</th>
@@ -109,7 +109,7 @@
                                                                 class="icon material-icons md-edit"></i></a>
                                                     </div>
                                                 @endcan
-                                    </form>
+                                          </form>
                                     @can('delete users')
                                         <div class="col-md-2  my-2">
                                             <form action="{{ route('user.destroy', $user) }}" method="POST">
@@ -155,6 +155,14 @@
                         }
 
                     }
+                }
+
+                function AllSelected(){
+                    let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = document.getElementById('selectAll').checked;
+                        });
+                    
                 }
     </script>
 @endsection

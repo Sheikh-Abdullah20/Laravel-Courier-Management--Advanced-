@@ -29,20 +29,36 @@ class AdminController extends Controller
             $statusCount = $shipments->countBy('status_shipment');
             $riders = Rider::all();
 
-            return view('index', compact('agents', 'shipments', 'users', 'riders', 'statuss', 'statusCount'));
+            // chart Statuses
+            $chartStatusCount = $shipments->countBy('status_shipment');
+            $chartStatusCountDelivered = $chartStatusCount['Delivered'] ?? 0;
+            $chartStatusCountOntheway = $chartStatusCount['On the way'] ?? 0;
+            $chartStatusCountOrderInitiated = $chartStatusCount['Order Initiated'] ?? 0;
+
+            return view('index', compact('agents', 'shipments', 'users', 'riders', 'statuss', 'statusCount','chartStatusCountOrderInitiated','chartStatusCountDelivered','chartStatusCountOntheway'));
 
         } elseif (Auth::user()->hasRole('agent')) {
             $statuss = Status::all();
             $shipments = Shipment::where('user_id', Auth::user()->id)->get();
             $statusCount = $shipments->countBy('status_shipment');
 
-            return view('index', compact('shipments', 'statuss', 'statusCount'));
+              // chart Statuses
+              $chartStatusCount = $shipments->countBy('status_shipment');
+              $chartStatusCountDelivered = $chartStatusCount['Delivered'] ?? 0;
+              $chartStatusCountOntheway = $chartStatusCount['On the way'] ?? 0;
+              $chartStatusCountOrderInitiated = $chartStatusCount['Order Initiated'] ?? 0;
+            return view('index', compact('shipments', 'statuss', 'statusCount','chartStatusCountOrderInitiated','chartStatusCountDelivered','chartStatusCountOntheway'));
         } else {
             $statuss = Status::all();
             $shipments = Shipment::where('receiver_email', Auth::user()->email)->get();
             $statusCount = $shipments->countBy('status_shipment');
+            // chart Statuses
+            $chartStatusCount = $shipments->countBy('status_shipment');
+            $chartStatusCountDelivered = $chartStatusCount['Delivered'] ?? 0;
+            $chartStatusCountOntheway = $chartStatusCount['On the way'] ?? 0;
+            $chartStatusCountOrderInitiated = $chartStatusCount['Order Initiated'] ?? 0;
 
-            return view('index', compact('shipments', 'statuss', 'statusCount'));
+            return view('index', compact('shipments', 'statuss', 'statusCount','chartStatusCountOrderInitiated','chartStatusCountDelivered','chartStatusCountOntheway'));
         }
 
     }

@@ -37,6 +37,7 @@ class ShipmentController extends Controller implements HasMiddleware
         $action = $request->action;
         if ($action === 'delete') {
             $selectedIds = explode(',', $request->input('selectedId'));
+            // return $selectedIds;
             $shipments = Shipment::whereIn('id', $selectedIds)->delete();
             if ($shipments) {
                 return redirect()->route('shipment.index')->with('delete', 'Selected Shipments deleted successfully');

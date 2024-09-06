@@ -37,9 +37,9 @@ Permission - View
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete permissions'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @elseif(auth()->user()->hasRole('admin'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @endif
                                 <th>Permission Name</th>
                                 @if(auth()->user()->hasPermissionTo('edit permissions') || auth()->user()->hasPermissionTo('delete permissions'))
@@ -123,12 +123,21 @@ Permission - View
          alert('Please Select Atleast One Permission');
          return false;
      }else{
-         document.getElementById('form').submit();
+        let confirmed = confirm('Are You sure you want to Delete Permissions?');
+        if(confirmed){
+            document.getElementById('form').submit();
+        }
      }
 
     });
        
     
-     
+function AllSelected(){
+    const checkbox = document.querySelectorAll('input[name="selected[]"]');
+    checkbox.forEach(checkbox =>{
+        checkbox.checked = document.getElementById('selectAll').checked;
+    });
+ 
+}   
 </script>
 @endsection

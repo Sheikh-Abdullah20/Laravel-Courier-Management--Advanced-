@@ -50,9 +50,9 @@ Agents - View
                         <thead class="table-light">
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete agents'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @elseif(auth()->user()->hasRole('admin'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @endif
                                
                                 <th>Name</th>
@@ -152,6 +152,14 @@ Agents - View
                 }
             }
      
+        }
+
+        function AllSelected(){
+            let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = document.getElementById('selectAll').checked;
+            });
+            console.log('All Selected')
         }
     </script>
 @endsection

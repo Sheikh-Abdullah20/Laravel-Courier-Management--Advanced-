@@ -162,7 +162,6 @@
         <script src="{{ asset('assets/js/vendors/jquery.fullscreen.min.js') }}"></script>
         <script src="{{ asset('assets/js/vendors/chart.js') }}"></script>
         <script src="{{ asset('assets/js/main.js?v=6.0') }}" type="text/javascript"></script>
-        <script src="{{ asset('assets/js/custom-chart.js') }}" type="text/javascript"></script>
         <script src="{{ asset('assets/js/vendors/alert.js') }}"></script>
         <script src="{{ asset('assets/js/vendors/color-modes.js') }}"></script>
         @yield('scripts')

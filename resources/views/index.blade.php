@@ -121,63 +121,72 @@
 
     </div>
 
-    {{-- <div class="row my-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table  text-center">
-                                <thead>
-                                    <tr>
-                                        <th>Shipments Status</th>
-                                        <th>Shipments Status Count</th>
-                                    </tr>
-                                </thead>
-                                @foreach ($statuss as $status )
-        
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            
-        
-                                            @if($status->status_name === 'Order Initiated')
-                                            <div class="card w-50 m-auto d-flex align-items-center  ">
-                                                <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-thumb_up mx-2 "></i> {{ $status->status_name }}</p>
-                                              </div>
-                                              
-                                              @elseif($status->status_name === 'On the way')
-                                              <div class="card w-50 m-auto d-flex align-items-center  ">
-                                                  <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-local_shipping mx-2"></i> {{ $status->status_name }}</p>
-                                                </div>
-                                                
-                                                @elseif($status->status_name === 'Delivered')
-                                                <div class="card w-50 m-auto d-flex align-items-center  ">
-                                                    <p class=" p-2 text-dark d-flex text-center"> <i class="material-icons icon md-check_circle mx-2"></i> {{ $status->status_name }}</p>
-                                                  </div>
-                                            @else
-                                            <p class="bg-secondary w-50 m-auto p-2"> {{ $status->status_name }}</p>
-                                            @endif
-        
-                                        </td>
-                                        <td>
-                                          <p class=" p-3 w-50 m-auto rounded card"> {{ $statusCount[$status->status_name] ?? 0 }}</p>
-                                        </td>
-        
-                                    </tr>
-                                </tbody>
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
-        
-                  
-               
-        
-                </div>
-            </div>
-        </div>
-    </div> --}}
+    <div class="card mb-4">
+        <article class="card-body">
+            <h5 class="card-title">Shipment statistics</h5>
+            <canvas id="myChart" height="120px"></canvas>
+        </article>
+    </div>
 </section>
+
+@endsection
+
+@section('scripts')
+
+<script>
+    (function ($) {
+    "use strict";
+
+    /*Sale statistics Chart*/
+    if ($('#myChart').length) {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+            
+            // The data for our dataset
+            data: {
+                labels: ["Statuses"],
+                datasets: [{
+                        label: 'Order Initiated',
+                        tension: 0.3,
+                        fill: true,
+                        backgroundColor: 'rgba(44, 120, 220, 0.2)',
+                        borderColor: 'rgba(44, 120, 220)',
+                        data: [@json($chartStatusCountOrderInitiated)],
+                    },
+                    {
+                        label: 'On the way out',
+                        tension: 0.3,
+                        fill: true,
+                        backgroundColor: 'rgba(4, 209, 130, 0.2)',
+                        borderColor: 'rgb(4, 209, 130)',
+                        data: [@json($chartStatusCountOntheway )],
+                    },
+                    {
+                        label: 'Delivered',
+                        tension: 0.3,
+                        fill: true,
+                        backgroundColor: 'rgba(380, 200, 230, 0.2)',
+                        borderColor: 'rgb(380, 200, 230)',
+                        data: [@json($chartStatusCountDelivered )],
+                    }
+
+                ]
+            },
+            options: {
+                plugins: {
+                legend: {
+                    labels: {
+                    usePointStyle: true,
+                    },
+                }
+                }
+            }
+        });
+    } 
+})(jQuery);
+</script>
+
 
 @endsection

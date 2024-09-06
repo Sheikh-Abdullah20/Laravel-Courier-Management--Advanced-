@@ -37,9 +37,9 @@ Status - View
                         <thead>
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete status'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @elseif(auth()->user()->hasRole('admin'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @endif
                                 <th>Status ID</th>
                                 <th>Status Name</th>
@@ -121,12 +121,21 @@ Status - View
          alert('Please Select Atleast One Status');
          return false;
      }else{
-         document.getElementById('form').submit();
+        let confirmed = confirm('Are You Sure You want to Delete Status?') 
+        if(confirmed){
+            document.getElementById('form').submit();
+        }
      }
 
     });
        
     
      
+     function AllSelected(){
+        let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = document.getElementById('selectAll').checked;
+        });
+     }
 </script>
 @endsection

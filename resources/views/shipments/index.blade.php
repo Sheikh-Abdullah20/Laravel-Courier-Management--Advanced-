@@ -123,9 +123,9 @@ Shipments - View
                                 <tr>
                                     @if(auth()->user()->hasPermissionTo('delete agents') ||
                                     auth()->user()->hasPermissionTo('print'))
-                                    <th class="form-check-label">Select</th>
+                                    <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                     @elseif(auth()->user()->hasRole('admin'))
-                                    <th class="form-check-label">Select</th>
+                                    <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                     @endif
 
                                     <th>Order Tracking</th>
@@ -285,7 +285,7 @@ Shipments - View
                     if(action === 'delete'){
                       confirmed = confirm('Are You Sure');
                     if(confirmed){
-
+                        document.getElementById('selected_ids').value = selectedIds
                         document.getElementById('form-action').value = action;
                         document.getElementById('form').submit();
                     }      
@@ -314,6 +314,13 @@ Shipments - View
                 console.log(action);
             }
               
+
+            function AllSelected(){
+                let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = document.getElementById('selectAll').checked;
+                }); 
+            }
             
             
 </script>

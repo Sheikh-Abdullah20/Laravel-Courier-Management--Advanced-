@@ -41,7 +41,7 @@ view Shipments
                     <table class="table table-striped  text-center">
                         <thead class="table-light">
                             <tr>
-                                <th>Select</th>
+                                <th> <input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 <th>Rider Name</th>
                                 <th>Order Tracking</th>
                                 <th>Agent Name</th>
@@ -101,6 +101,15 @@ view Shipments
             }
         }
     });
+
+
+
+    function AllSelected(){
+        let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+        checkboxes.forEach(function(checkbox){
+            checkbox.checked = document.getElementById('selectAll').checked;
+        });
+    }
 </script>
 
 @endsection

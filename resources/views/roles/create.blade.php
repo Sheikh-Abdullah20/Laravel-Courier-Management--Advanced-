@@ -34,6 +34,13 @@ Role - Create
     </div>
 
     <div class="row">
+        <div class="col-md-12">
+            <p>Select All</p>
+            <input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)">
+            <hr>
+        </div>
+    </div>
+    <div class="row">
         @if(!empty($permissions))
         @foreach($permissions as $permission)
         <div class="col-md-3 p-2">
@@ -56,4 +63,17 @@ Role - Create
 
 
 </section>
+@endsection
+
+@section('scripts')
+
+<script>
+   function AllSelected(){
+    let checkboxes = document.querySelectorAll('input[name="permission[]"]');
+    checkboxes.forEach(checkbox =>{
+        checkbox.checked = document.getElementById('selectAll').checked;
+    })
+   }
+</script>
+
 @endsection

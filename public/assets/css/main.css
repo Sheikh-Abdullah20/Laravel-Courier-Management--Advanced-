@@ -197,6 +197,14 @@ hr {
   color: #a6acb3 !important;
 }
 
+::-webkit-scrollbar {
+  width: 20px;
+  height: 10px;
+  background-color: #1e2231;
+  border-radius: 10px;
+}
+
+
 table {
   font-size: 13px;
   color: #495058 !important;

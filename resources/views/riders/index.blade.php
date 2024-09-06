@@ -53,9 +53,9 @@ Riders - View
                         <thead class="table-light">
                             <tr>
                                 @if(auth()->user()->hasPermissionTo('delete riders'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @elseif(auth()->user()->hasRole('admin'))
-                                <th>Select</th>
+                                <th><input type="checkbox" class="form-check-input" id="selectAll" onclick="AllSelected(this)"></th>
                                 @endif
                                 <th>Rider ID</th>
                                 <th>Rider Name</th>
@@ -169,6 +169,14 @@ Riders - View
                         form.submit();
                         console.log(riderId);
                     }
+                }
+
+                function AllSelected(){
+                    let checkboxes = document.querySelectorAll('input[name="selected[]"]');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = document.getElementById('selectAll').checked;
+                    });
+                    
                 }
 </script>
 @endsection
